@@ -21,14 +21,15 @@ import Select from "react-select";
 
 const Sections = () => {
   const params = useParams();
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
   // States
   const [sectionList, setSectionList] = useState([]);
   const [subjectList, setSubjectList] = useState([]);
   const [studentList, setStudentList] = useState([]);
   const [teacherList, setTeacherList] = useState([]);
-  
+  const [dynamicSubjectList, setDynamicSubjectList] = useState(subjectList);
+
   const [selectedClassTeacher, setSelectedClassTeacher] = useState(null);
   const [selectedTeachers, setSelectedTeachers] = useState([]);
   const [selectedStudents, setSelectedStudents] = useState([]);
@@ -36,12 +37,21 @@ const Sections = () => {
 
   // Fetch data functions
   const fetchSections = async () => {
-    const { data } = await axios.get(`http://localhost:8000/class/${params.id}/sections`);
+    const { data } = await axios.get(
+      `http://localhost:8000/class/${params.id}/sections`,
+    );
     setSectionList(data);
   };
-
   const fetchSubjects = async () => {
-    const { data } = await axios.get("http://localhost:8000/subjects");
+    const data = [
+      { subjectName: "Mathematics", _id: "12345" },
+      { subjectName: "Physics", _id: "67890" },
+      { subjectName: "Chemistry", _id: "11223" },
+      { subjectName: "Biology", _id: "44556" },
+      { subjectName: "History", _id: "78901" },
+    ];
+    // const { data } = await axios.get("http://localhost:8000/subjects");
+    // const refactoredData = data.map((item) => {
     const refactoredData = data.map((item) => {
       item.label = item.subjectName;
       item.value = item._id;
@@ -49,10 +59,16 @@ const Sections = () => {
     });
     setSubjectList(refactoredData);
   };
-
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get("http://localhost:8000/users");
+      const data = [
+        { fullName: "John Doe", _id: "101", role: "teacher" },
+        { fullName: "Jane Smith", _id: "102", role: "student" },
+        { fullName: "Alice Brown", _id: "103", role: "teacher" },
+        { fullName: "Bob Johnson", _id: "104", role: "student" },
+        { fullName: "Charlie Davis", _id: "105", role: "student" },
+      ];
+      // const { data } = await axios.get("http://localhost:8000/users");
       const refactoredData = data.map((item) => ({
         label: item.fullName,
         value: item._id,
@@ -68,7 +84,6 @@ const Sections = () => {
       console.error("Error fetching user data:", error);
     }
   };
-
   // useEffect to fetch data on mount
   useEffect(() => {
     fetchSections();
@@ -89,7 +104,7 @@ const Sections = () => {
         value: Yup.string().required("Class teacher value is required"),
       })
       .required("Class teacher is required"),
-    
+
     students: Yup.array()
       .min(1, "At least one student is required")
       .required("Students are required"),
@@ -101,17 +116,21 @@ const Sections = () => {
 
   // Handle form submission
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
+    // const subjects =values.subjects.map((subject) => subject.value)
     const dataToSubmit = {
       ...values,
       class: params.id,
-      classTeacher: values.classTeacher.value, 
-      subjects: values.subjects.map((subject) => subject.value), 
-      students: values.students.map((student) => student.value), 
-      teachers: values.teachers.map((teacher) => teacher.value), 
+      classTeacher: values.classTeacher.value,
+      subjects: values.subjects.map((subject) => subject.value),
+      students: values.students.map((student) => student.value),
+      teachers: values.teachers.map((teacher) => teacher.value),
     };
 
-    const { data } = await axios.post(`http://localhost:8000/class/${params.id}/sections`, dataToSubmit)
-  
+    const { data } = await axios.post(
+      `http://localhost:8000/class/${params.id}/sections`,
+      dataToSubmit,
+    );
+
     setSubmitting(false);
     resetForm();
   };
@@ -125,7 +144,7 @@ const Sections = () => {
             Add New Section
           </Button>
         </DialogTrigger>
-        
+
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>
             <DialogTitle>Add New Section</DialogTitle>
@@ -144,96 +163,230 @@ const Sections = () => {
             validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
-            {({value,setFieldValue, isSubmitting }) => (
+            {({ value, setFieldValue, isSubmitting }) => (
               <Form>
                 <div className="grid gap-4 py-2">
                   {/* Section Name */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="sectionName" className="text-right font-semibold">Section Name</Label>
-                    <Field as={Input} id="sectionName" name="sectionName" className="col-span-3" />
-                    <ErrorMessage name="sectionName" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <Label
+                      htmlFor="sectionName"
+                      className="text-right font-semibold"
+                    >
+                      Section Name
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="sectionName"
+                      name="sectionName"
+                      className="col-span-3"
+                    />
+                    <ErrorMessage
+                      name="sectionName"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Class */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="class" className="text-right font-semibold">Class</Label>
-                    <Field as={Input} id="class" name="class" className="col-span-3" />
-                    <ErrorMessage name="class" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <Label htmlFor="class" className="text-right font-semibold">
+                      Class
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="class"
+                      name="class"
+                      className="col-span-3"
+                    />
+                    <ErrorMessage
+                      name="class"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Subjects */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="subjects" className="text-right font-semibold">Subjects</Label>
+                    <Label
+                      htmlFor="subjects"
+                      className="text-right font-semibold"
+                    >
+                      Subjects
+                    </Label>
                     <Select
+                      onKeyDown={(e) => {
+                        if (e.key == ":") {
+                          const sub = e.target.value.trim();
+                          if (!sub) return;
+                          // console.log(sub);
+                          // const tempTeacherList = [...teacherList]; // soft copy of objs
+                          const tempTeacherList = JSON.parse(
+                            JSON.stringify(teacherList),
+                          );
+                          // const tempTeacherList = teacherList.map((item) => ({
+                          //   ...item,
+                          // }));
+                          const tempTeachers = tempTeacherList.map((e) => ({
+                            ...e,
+                            label: `${sub}:${e.label}`,
+                          }));
+                          // console.log({ teacherList, tempTeachers });
+                          // e.currentTarget.options = tempTeachers;
+                          setDynamicSubjectList(tempTeachers);
+                        }
+                      }}
                       isMulti
                       value={selectedSubjects}
                       className="w-72"
-                      onChange={(selectedOptions) => {
-                        setSelectedSubjects(selectedOptions); 
-                        setFieldValue("subjects", selectedOptions); 
+                      onChange={async (selectedOptions) => {
+                        if (selectedOptions.length > 0) {
+                          const { label, value } =
+                            selectedOptions[selectedOptions.length - 1];
+                          console.log({ label, value });
+                          if (label.includes(":")) {
+                            const [subject, teacher] = label.split(":");
+                            const selectedTeacher = value;
+                            // const res = await axios.post(
+                            //   "http://localhost:8000/sections/674bce5e1682d6f6f8e27a10/subjects",
+                            //   {
+                            //     subjectName,
+                            //     teacher: selectedTeacher,
+                            //   },
+                            // );
+                            // if (res.status == 200 || res.status == 201) {
+                            let res = { _id: 493, subjectName: subject };
+                            selectedOptions[selectedOptions.length - 1].value =
+                              res._id; // sub id i geuss
+                            selectedOptions[selectedOptions.length - 1].label =
+                              res.subjectName;
+                            setSelectedTeachers((p) => [
+                              ...p,
+                              {
+                                label: teacher,
+                                value: selectedTeacher,
+                                role: "teacher",
+                              },
+                            ]);
+                            // }
+                            console.log({ subject, teacher });
+                          }
+                        }
+                        setSelectedSubjects(selectedOptions);
+                        setFieldValue("subjects", selectedOptions);
+                        setDynamicSubjectList(subjectList);
                       }}
-                      options={subjectList}
+                      options={dynamicSubjectList}
                     />
-                    <ErrorMessage name="subjects" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <ErrorMessage
+                      name="subjects"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Class Teacher */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="classTeacher" className="text-right font-semibold">Class Teacher</Label>
+                    <Label
+                      htmlFor="classTeacher"
+                      className="text-right font-semibold"
+                    >
+                      Class Teacher
+                    </Label>
                     <Select
                       options={teacherList}
                       className="w-72"
-                      value={selectedClassTeacher} 
+                      value={selectedClassTeacher}
                       onChange={(selectedOption) => {
-                        setSelectedClassTeacher(selectedOption); 
-                        setFieldValue("classTeacher", selectedOption); 
+                        setSelectedClassTeacher(selectedOption);
+                        setFieldValue("classTeacher", selectedOption);
                       }}
                     />
-                    <ErrorMessage name="classTeacher" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <ErrorMessage
+                      name="classTeacher"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Students */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="students" className="text-right font-semibold">Students</Label>
+                    <Label
+                      htmlFor="students"
+                      className="text-right font-semibold"
+                    >
+                      Students
+                    </Label>
                     <Select
                       isMulti
                       value={selectedStudents}
                       className="w-72"
                       onChange={(selectedOptions) => {
-                        setSelectedStudents(selectedOptions); 
-                        setFieldValue("students", selectedOptions); 
+                        setSelectedStudents(selectedOptions);
+                        setFieldValue("students", selectedOptions);
                       }}
                       options={studentList}
                     />
-                    <ErrorMessage name="students" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <ErrorMessage
+                      name="students"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Teachers */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="teachers" className="text-right font-semibold">Teachers</Label>
+                    <Label
+                      htmlFor="teachers"
+                      className="text-right font-semibold"
+                    >
+                      Teachers
+                    </Label>
                     <Select
                       isMulti
                       value={selectedTeachers}
                       className="w-72"
                       onChange={(selectedOptions) => {
-                        setSelectedTeachers(selectedOptions); 
-                        setFieldValue("teachers", selectedOptions); 
+                        console.log("teac", selectedOptions);
+                        setSelectedTeachers(selectedOptions);
+                        setFieldValue("teachers", selectedOptions);
                       }}
                       options={teacherList}
                     />
-                    <ErrorMessage name="teachers" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <ErrorMessage
+                      name="teachers"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Room Number */}
                   <div className="grid grid-cols-4 items-center gap-2">
-                    <Label htmlFor="roomNumber" className="text-right font-semibold">Room Number</Label>
-                    <Field as={Input} id="roomNumber" name="roomNumber" className="col-span-3" />
-                    <ErrorMessage name="roomNumber" component="div" className="text-red-500 col-span-4 text-right text-sm" />
+                    <Label
+                      htmlFor="roomNumber"
+                      className="text-right font-semibold"
+                    >
+                      Room Number
+                    </Label>
+                    <Field
+                      as={Input}
+                      id="roomNumber"
+                      name="roomNumber"
+                      className="col-span-3"
+                    />
+                    <ErrorMessage
+                      name="roomNumber"
+                      component="div"
+                      className="text-red-500 col-span-4 text-right text-sm"
+                    />
                   </div>
 
                   {/* Submit Button */}
                   <DialogFooter>
-                    <Button type="submit" disabled={isSubmitting} className="rounded bg-black text-white">
+                    <Button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="rounded bg-black text-white"
+                    >
                       Submit
                     </Button>
                   </DialogFooter>
@@ -243,21 +396,20 @@ const Sections = () => {
           </Formik>
         </DialogContent>
       </Dialog>
-      <div
-
-      className='flex  inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]  gap-4'>
-        {
-          sectionList.length > 0 && sectionList.map((item) => {
+      <div className="flex  inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]  gap-4">
+        {sectionList.length > 0 &&
+          sectionList.map((item) => {
             return (
               <div
-              onClick={()=>router.push(pathname+'/'+item._id)}
-              key={item._id} className='bg-black/10 h-12 m-16'>
+                onClick={() => router.push(pathname + "/" + item._id)}
+                key={item._id}
+                className="bg-black/10 h-12 m-16"
+              >
                 Section - {item.sectionName}
                 Total Students: {item.students.length}
               </div>
-            )
-          })
-        }
+            );
+          })}
       </div>
     </>
   );
