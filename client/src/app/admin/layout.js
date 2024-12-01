@@ -48,37 +48,40 @@ export default function Layout({ children }) {
 
 			<main className="w-[100%]">
 				<SidebarTrigger />
-				{/* breadcrumbs here */}
 
-				<div>
-					{/* Breadcrumbs */}
-					<nav
-						aria-label="breadcrumb"
-						className="m-4">
-						<ol className="flex space-x-2 text-sm text-gray-500">
-							<>
-								{pathSegments.map((segment, index) => {
-									const isLast = index === pathSegments.length - 1;
-									const url = "/" + pathSegments.slice(0, index + 1).join("/");
-									return (
-										<li key={url}>
-											{isLast ? (
-												<span className="text-gray-700">{segment}</span>
-											) : (
-												<Link
-													href="/admin/dashboard"
-													className="hover:text-gray-700">
-													{segment.replace("-", "")}
-												</Link>
-											)}
-											{!isLast && <span className="mx-2">/</span>}
-										</li>
-									);
-								})}
-							</>
-						</ol>
-					</nav>
-				</div>
+				{/* breadcrumbs here */}
+				<nav
+					aria-label="breadcrumb"
+					className="m-4 bg-gray-900 text-white">
+					<ol className="flex space-x-2 text-sm text-gray-500">
+						<>
+							{pathSegments.map((segment, index) => {
+								const isLast = index === pathSegments.length - 1;
+								const url = "/" + pathSegments.slice(0, index + 1).join("/");
+								return (
+									<li key={url}>
+										{isLast ? (
+											<span className="text-white hover:text-gray-300 ">
+												{segment}
+											</span>
+										) : (
+											<Link
+												href="/admin/dashboard"
+												className="text-white hover:text-gray-300">
+												{segment.replace("-", "")}
+											</Link>
+										)}
+										{!isLast && (
+											<span className="mx-2 text-white hover:text-gray-300">
+												/
+											</span>
+										)}
+									</li>
+								);
+							})}
+						</>
+					</ol>
+				</nav>
 
 				<div className="m-12">{children}</div>
 			</main>
