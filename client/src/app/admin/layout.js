@@ -56,31 +56,26 @@ export default function Layout({ children }) {
 						aria-label="breadcrumb"
 						className="m-4">
 						<ol className="flex space-x-2 text-sm text-gray-500">
-							{pathSegments.length === 0 ? (
-								<li>{/* <Link href="/">Home</Link> */}</li>
-							) : (
-								<>
-									{pathSegments.map((segment, index) => {
-										const isLast = index === pathSegments.length - 1;
-										const url =
-											"/" + pathSegments.slice(0, index + 1).join("/");
-										return (
-											<li key={url}>
-												{isLast ? (
-													<span className="text-gray-700">{segment}</span>
-												) : (
-													<Link
-														href="/admin/dashboard"
-														className="hover:text-gray-700">
-														{segment.replace("-", "")}
-													</Link>
-												)}
-												{!isLast && <span className="mx-2">/</span>}
-											</li>
-										);
-									})}
-								</>
-							)}
+							<>
+								{pathSegments.map((segment, index) => {
+									const isLast = index === pathSegments.length - 1;
+									const url = "/" + pathSegments.slice(0, index + 1).join("/");
+									return (
+										<li key={url}>
+											{isLast ? (
+												<span className="text-gray-700">{segment}</span>
+											) : (
+												<Link
+													href="/admin/dashboard"
+													className="hover:text-gray-700">
+													{segment.replace("-", "")}
+												</Link>
+											)}
+											{!isLast && <span className="mx-2">/</span>}
+										</li>
+									);
+								})}
+							</>
 						</ol>
 					</nav>
 				</div>
