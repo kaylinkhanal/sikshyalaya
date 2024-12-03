@@ -18,6 +18,7 @@ import { Label } from "@/components/ui/label";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
+import { useToast } from "@/hooks/use-toast";
 
 const Sections = () => {
   const params = useParams();
@@ -35,6 +36,7 @@ const Sections = () => {
   const [selectedStudents, setSelectedStudents] = useState([]);
   const [selectedSubjects, setSelectedSubjects] = useState([]);
 
+  const toast = useToast();
   // Fetch data functions
   const fetchSections = async () => {
     const { data } = await axios.get(
@@ -43,32 +45,18 @@ const Sections = () => {
     setSectionList(data);
   };
   const fetchSubjects = async () => {
-    const data = [
-      { subjectName: "Mathematics", _id: "12345" },
-      { subjectName: "Physics", _id: "67890" },
-      { subjectName: "Chemistry", _id: "11223" },
-      { subjectName: "Biology", _id: "44556" },
-      { subjectName: "History", _id: "78901" },
-    ];
-    // const { data } = await axios.get("http://localhost:8000/subjects");
-    // const refactoredData = data.map((item) => {
+    const { data } = await axios.get("http://localhost:8000/subjects");
     const refactoredData = data.map((item) => {
       item.label = item.subjectName;
       item.value = item._id;
       return item;
     });
     setSubjectList(refactoredData);
+    setDynamicSubjectList(refactoredData);
   };
   const fetchUser = async () => {
     try {
-      const data = [
-        { fullName: "John Doe", _id: "101", role: "teacher" },
-        { fullName: "Jane Smith", _id: "102", role: "student" },
-        { fullName: "Alice Brown", _id: "103", role: "teacher" },
-        { fullName: "Bob Johnson", _id: "104", role: "student" },
-        { fullName: "Charlie Davis", _id: "105", role: "student" },
-      ];
-      // const { data } = await axios.get("http://localhost:8000/users");
+      const { data } = await axios.get("http://localhost:8000/users");
       const refactoredData = data.map((item) => ({
         label: item.fullName,
         value: item._id,
@@ -116,7 +104,6 @@ const Sections = () => {
 
   // Handle form submission
   const handleSubmit = async (values, { setSubmitting, resetForm }) => {
-    // const subjects =values.subjects.map((subject) => subject.value)
     const dataToSubmit = {
       ...values,
       class: params.id,
@@ -130,7 +117,9 @@ const Sections = () => {
       `http://localhost:8000/class/${params.id}/sections`,
       dataToSubmit,
     );
-
+    if (data) {
+      console.log("submittedRes", data);
+    }
     setSubmitting(false);
     resetForm();
   };
@@ -242,23 +231,32 @@ const Sections = () => {
                         if (selectedOptions.length > 0) {
                           const { label, value } =
                             selectedOptions[selectedOptions.length - 1];
-                          console.log({ label, value });
                           if (label.includes(":")) {
+                            console.log(": detected");
                             const [subject, teacher] = label.split(":");
                             const selectedTeacher = value;
-                            // const res = await axios.post(
-                            //   "http://localhost:8000/sections/674bce5e1682d6f6f8e27a10/subjects",
-                            //   {
-                            //     subjectName,
-                            //     teacher: selectedTeacher,
-                            //   },
-                            // );
+                            const { data } = await axios.post(
+                              "http://localhost:8000/sections/674bce5e1682d6f6f8e27a10/subjects",
+                              {
+                                subjectName: subject,
+                                teacher: selectedTeacher,
+                              },
+                            );
+                            console.log({ data });
                             // if (res.status == 200 || res.status == 201) {
                             let res = { _id: 493, subjectName: subject };
                             selectedOptions[selectedOptions.length - 1].value =
-                              res._id; // sub id i geuss
+                              data.subject._id; // sub id i geuss
                             selectedOptions[selectedOptions.length - 1].label =
-                              res.subjectName;
+                              data.subject.subjectName;
+                            setFieldValue("teachers", [
+                              ...selectedTeacher,
+                              {
+                                label: teacher,
+                                value: selectedTeacher,
+                                role: "teacher",
+                              },
+                            ]);
                             setSelectedTeachers((p) => [
                               ...p,
                               {
@@ -268,7 +266,6 @@ const Sections = () => {
                               },
                             ]);
                             // }
-                            console.log({ subject, teacher });
                           }
                         }
                         setSelectedSubjects(selectedOptions);
