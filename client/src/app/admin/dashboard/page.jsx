@@ -1,4 +1,5 @@
 import { CircleChart } from "@/components/charts/circle";
+import { StudentAttendance } from "@/components/charts/student-chart";
 import { TotalCountCard } from "@/components/totalCount";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -41,30 +42,31 @@ const Dashboard = async () => {
     <main className="xl:flex w-full gap-[18px]">
       {/* flex-wrap */}
       <section className="w-full">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-4 gap-[30px]">
-            <TotalCountCard
-              className="bg-lamaPurple w-full"
-              role={"admin"}
-              total={admins.length}
-            />
-            <TotalCountCard
-              className="bg-lamaYellow"
-              role={"teacher"}
-              total={teachers.length}
-            />
-            <TotalCountCard
-              className="bg-lamaPurple "
-              role={"student"}
-              total={students.length}
-            />
-            <TotalCountCard
-              className="bg-lamaYellow"
-              role={"parent"}
-              total={parents.length}
-            />
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-4 gap-[30px]">
+          <TotalCountCard
+            className="bg-lamaPurple w-full"
+            role={"admin"}
+            total={admins.length}
+          />
+          <TotalCountCard
+            className="bg-lamaYellow"
+            role={"teacher"}
+            total={teachers.length}
+          />
+          <TotalCountCard
+            className="bg-lamaPurple "
+            role={"student"}
+            total={students.length}
+          />
+          <TotalCountCard
+            className="bg-lamaYellow"
+            role={"parent"}
+            total={parents.length}
+          />
         </div>
-        <section className="mt-[30px]">
-          <CircleChart/>
+        <section className="mt-[30px] flex gap-2">
+          <CircleChart />
+          <StudentAttendance />
         </section>
         <div>bottom</div>
       </section>

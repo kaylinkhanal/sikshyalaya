@@ -12,6 +12,7 @@ import { ChartContainer } from "@/components/ui/chart";
 import { Ellipsis } from "lucide-react";
 import { User } from "lucide-react";
 import { UserX2 } from "lucide-react";
+import { Button } from "../ui/button";
 
 const chartConfig = {
   visitors: {
@@ -62,11 +63,13 @@ export function CircleChart() {
   }, []);
 
   return (
-    <section className="w-full 2xl:max-w-[400px] border-transparent border-4 rounded-md bg-lamaSkyLight p-[30px]">
+    <section className="w-fit min-w-[300px] 2xl:max-w-[400px] border-transparent border-4 rounded-md bg-yellow-50  p-[30px]">
       <div className="relative w-full">
         <div className="flex justify-between items-center">
-          <h1>Students</h1>
-          <Ellipsis />
+          <h1 className="text-lg text-black font-semibold">Students</h1>
+          <Button variant="ghost" className="hover:bg-transparent">
+            <Ellipsis className="text-black" />
+          </Button>
         </div>
         <div className="flex absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
           <User />
