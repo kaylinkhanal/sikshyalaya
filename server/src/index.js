@@ -7,6 +7,7 @@ const { PORT } = process.env;
 const UserRoute = require("./routes/user");
 const ClassRoute = require("./routes/class");
 const SubjectRoute = require("./routes/subject");
+const eventRoutes = require("./routes/event");
 
 const dbConnect = require("./db/connection");
 dbConnect();
@@ -17,7 +18,7 @@ app.use(UserRoute);
 app.use(ClassRoute);
 app.use(SubjectRoute);
 // http://localhost:8000/subject/{sectionId}/subject
-
+app.use(eventRoutes)
 app.listen(PORT ?? 8080, () => {
   console.log(`Example app listening on port ${PORT ?? 8080}`);
 });
