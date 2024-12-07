@@ -24,7 +24,7 @@ export default function ClassManagement() {
 
   const fetchClasses = async () => {
     try {
-      const response = await fetch('http://localhost:8000/class')
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/class')
       if (!response.ok) throw new Error('Failed to fetch classes')
       const data = await response.json()
       setClasses(data)
@@ -41,7 +41,7 @@ export default function ClassManagement() {
     e.preventDefault()
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:8000/class', {
+      const response = await fetch(process.env.NEXT_PUBLIC_API_URL+'/class', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
