@@ -25,11 +25,11 @@ export default function UserApprovalTable(props) {
     setDialogOpen(false);
     if (action == "approve") {
       await axios.patch(
-        "http://localhost:8000/approve-user/" + selectedUser._id
+        process.env.NEXT_PUBLIC_API_URL+"/approve-user/" + selectedUser._id
       );
     } else {
       await axios.patch(
-        "http://localhost:8000/reject-user/" + selectedUser._id
+        process.env.NEXT_PUBLIC_API_URL+"/reject-user/" + selectedUser._id
       );
     }
     props.fetchUsers();
