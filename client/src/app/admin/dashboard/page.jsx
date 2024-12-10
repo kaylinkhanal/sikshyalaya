@@ -14,6 +14,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import axios from "axios";
 import { Ellipsis } from "lucide-react";
 import { OptionIcon } from "lucide-react";
+import { EventCalendar } from "@/components/calendar/eventCalendar";
 import React from "react";
 
 const Dashboard = async () => {
@@ -36,6 +37,50 @@ const Dashboard = async () => {
       description: "A fun-filled day of athletic events and team competitions.",
       start: "10:00",
       end: "12:00",
+    },
+  ];
+
+  const legends = [
+    { type: "eca", label: "ECA", color: "#bfdbfe" },
+    { type: "holiday", label: "Holiday", color: "#bbf7d0" },
+    { type: "deadline", label: "Deadline", color: "#fecaca" },
+  ];
+
+  const cevents = [
+    {
+      id: "1",
+      date: new Date(2024, 11, 15),
+      title: "Team Meeting",
+      description: "Weekly sync with the team",
+      type: "eca",
+    },
+    {
+      id: "2",
+      date: new Date(2024, 11, 1),
+      title: "New Year",
+      description: "New Year's Day",
+      type: "holiday",
+    },
+    {
+      id: "3",
+      date: new Date(2024, 11, 20),
+      title: "Project Deadline",
+      description: "Submit final deliverables",
+      type: "deadline",
+    },
+    {
+      id: "4",
+      date: new Date(2024, 11, 25),
+      title: "Christmas",
+      description: "Christmas Day",
+      type: "holiday",
+    },
+    {
+      id: "5",
+      date: new Date(2024, 11, 31),
+      title: "New Year's Eve",
+      description: "End of year celebration",
+      type: "holiday",
     },
   ];
   return (
@@ -73,7 +118,7 @@ const Dashboard = async () => {
       <section>
         <ScrollArea>
           <section>
-            <Calendar
+            {/* <Calendar
               className="h-full w-full flex"
               classNames={{
                 months:
@@ -83,7 +128,8 @@ const Dashboard = async () => {
                 head_row: "",
                 row: "w-full mt-2",
               }}
-            />
+            /> */}
+            <EventCalendar events={cevents} legends={legends} />
           </section>
           <section>
             <strong className="text-2xl">Events</strong>

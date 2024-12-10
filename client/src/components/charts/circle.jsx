@@ -44,8 +44,8 @@ export function CircleChart() {
         // Mocked data
         const mockedData = {
           data: [
-            { name: "Inner Circle", value: 200, fill: "hsl(var(--chart-1))" },
-            { name: "Outer Circle", value: 400, fill: "hsl(var(--chart-2))" },
+            { name: "Inner Circle", value: 200, fill: "hsl(var(--chart-4))" },
+            { name: "Outer Circle", value: 400, fill: "hsl(var(--chart-3))" },
           ],
           settings: {
             startAngle: 0,
@@ -104,15 +104,15 @@ export function CircleChart() {
         </ChartContainer>
       </div>
       <div className="flex justify-between">
-        <div className="flex flex-col">
-          <span className="aspect-square rounded-full bg-chart-1 block max-w-8"></span>
+        <div className="flex flex-col justify-start">
+          <span className="aspect-square rounded-full bg-chart-3 block max-w-8"></span>
           <strong>203</strong>
           <em>boys(59%)</em>
         </div>
-        <div className="flex flex-col">
-          <span className="aspect-square rounded-full bg-chart-2 block max-w-8"></span>
+        <div className="flex flex-col justify-start">
+          <span className="aspect-square rounded-full bg-chart-4 block max-w-8"></span>
           <strong>85</strong>
-          <em>boys(41%)</em>
+          <em>girls(41%)</em>
         </div>
       </div>
     </section>
