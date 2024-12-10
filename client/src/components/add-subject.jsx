@@ -19,7 +19,7 @@ const SubjectForm = () => {
 
   const fetchTeachers = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/users?role=teacher');
+      const response = await axios.get(process.env.NEXT_PUBLIC_API_URL+'/users?role=teacher');
       setTeachers(response.data);
     } catch (error) {
       console.error('Error fetching teachers:', error);
@@ -32,7 +32,7 @@ const SubjectForm = () => {
     setMessage('');
 
     try {
-      const response = await axios.post('http://localhost:8000/sections/674bce5e1682d6f6f8e27a10/subjects', {
+      const response = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/sections/674bce5e1682d6f6f8e27a10/subjects', {
         subjectName,
         teacher: selectedTeacher
       });

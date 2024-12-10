@@ -42,7 +42,7 @@ export default function RegisterPage() {
     onSubmit: async (values) => {
       try {
         const { data } = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL}/login`,
+          process.env.NEXT_PUBLIC_API_URL + "/login",
           values,
         );
         const { isLoggednIn, user } = data;

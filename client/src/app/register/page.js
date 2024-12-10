@@ -59,7 +59,7 @@ export default function RegisterPage() {
     validationSchema,
     onSubmit: async (values) => {
       try {
-        const { data } = await axios.post('http://localhost:8000/register', values)
+        const { data } = await axios.post(process.env.NEXT_PUBLIC_API_URL+'/register', values)
         if (data) {
           toast({
             title: data.msg

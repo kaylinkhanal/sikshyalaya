@@ -48,14 +48,14 @@ const Sections = () => {
 
   const fetchSections = async () => {
     const { data } = await axios.get(
-      `http://localhost:8000/class/${params.classId}/sections`,
+      `${process.env.NEXT_PUBLIC_API_URL}/class/${params.classId}/sections`,
     );
     setSectionList(data);
   };
 
   const fetchSubjects = async () => {
     const { data } = await axios.get(
-      process.env.NEXT_PUBLIC_API_URL + "/subjects",
+      `${process.env.NEXT_PUBLIC_API_URL}/subjects`,
     );
     const refactoredData = data.map((item) => {
       item.label = item.subjectName;
@@ -127,7 +127,7 @@ const Sections = () => {
 
     try {
       const { data } = await axios.post(
-        `http://localhost:8000/class/${params.classId}/sections`,
+        `${process.env.NEXT_PUBLIC_API_URL}/class/${params.classId}/sections`,
         dataToSubmit,
       );
       if (data) {
@@ -150,7 +150,7 @@ const Sections = () => {
 
   const handleDelete = async (sectionId) => {
     const res = await axios.delete(
-      `http://localhost:8000/sections/${sectionId}`,
+      `${process.env.NEXT_PUBLIC_API_URL}/sections/${sectionId}`,
     );
     if (res.status == 200) alert("deleted successfully");
   };
