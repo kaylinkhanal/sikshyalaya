@@ -8,15 +8,15 @@ const port = process.env.PORT
 const UserRoute = require('./routes/user')
 const ClassRoute = require('./routes/class')
 const SubjectRoute = require('./routes/subject')
+const EventRoute = require('./routes/event')
+
 
 const dbConnect = require('./db/connection');
 dbConnect()
 
 app.use(express.json())
 app.use(cors())
-app.use(UserRoute)
-app.use(ClassRoute)
-app.use(SubjectRoute)
+app.use([UserRoute, ClassRoute, SubjectRoute, EventRoute]);
 // http://localhost:8000/subject/{sectionId}/subject
 
 
