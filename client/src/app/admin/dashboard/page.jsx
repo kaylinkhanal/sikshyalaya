@@ -21,9 +21,22 @@ const Dashboard = async () => {
   const { data: users } = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/users`,
   );
-  const { data: eventList } = await axios.get(
+  const { data: eventsData } = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/events`,
   );
+  let eventmap = {}
+  eventsData.forEach((item)=>{
+    if(eventmap[item.startDate]){
+            eventmap[item.startDate] = {...item, 
+                                        description: item.description + '\n'+ eventmap[item.startDate].description,
+                                       title:  item.title + '\n'+ eventmap[item.startDate].title
+                                       }
+    }else{
+    eventmap[item.startDate] = item
+    }
+})
+
+const eventList=  Object.values(eventmap)
 
 
 

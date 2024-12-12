@@ -4,8 +4,8 @@ const eventSchema = new Schema({
     description: { type: String, required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date },
-    startTime: { type: Date },
-    endTime: { type: Date },
+    startTime: { type: String},
+    endTime: { type: String },
     
     // School-specific fields
     eventType: {

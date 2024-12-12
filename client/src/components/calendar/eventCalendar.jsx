@@ -9,10 +9,14 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from "../ui/dialog";
 import { useState } from "react";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import axios from "axios";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 
 // interface LegendConfig {
 //   type: string
@@ -40,6 +44,9 @@ export function EventCalendar({ events, legends }) {
   const [eventName, setEventName] = useState("");
   const [eventDescription, setEventDescription] = useState("");
   const [eventTime, setEventTime] = useState("");
+  const [eventType, setEventType] = useState("");
+
+  
   // Function to check if a date is an event day and get its event
   const getEvent = (day) =>
     events.find((event) =>{
@@ -52,9 +59,16 @@ export function EventCalendar({ events, legends }) {
 
 
   const handleSelection = (date)=>{
-    setIsDialogOpen(true)
-    setDate(date)
+    if(date-Date.now() >= 0) {
+      setIsDialogOpen(true)
+      setDate(date)
+    }
   }
+
+  const handleSubmit =async ()=> {
+  const res =  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/events`, {title: eventName,description:eventDescription,startDate:date,startTime:eventTime,eventType })
+  }
+
   return (
     <div>
       <TooltipProvider>
@@ -121,7 +135,7 @@ export function EventCalendar({ events, legends }) {
                       sideOffset={5}
                     >
                       <div className="text-sm">
-                        <p className="font-bold mb-1">{event.title}</p>
+                        <p className="font-bold mb-1">{event.title+43324423}</p>
                         <p>{event.description}</p>
                       </div>
                     </TooltipContent>
@@ -135,8 +149,8 @@ export function EventCalendar({ events, legends }) {
    
           <DialogContent>
             <DialogTitle>Add New Event </DialogTitle>
-            Date: {date}
-            <form onSubmit={null} className="grid gap-4 py-4">
+            Date: {date.toDateString()}
+            <form onSubmit={handleSubmit} className="grid gap-4 py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="event-name" className="text-right">
                     Name
@@ -173,6 +187,23 @@ export function EventCalendar({ events, legends }) {
                     onChange={(e) => setEventTime(e.target.value)}
                   />
                 </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="event-type" className="text-right">
+                    Event Type
+                  </Label>
+                    <Select onValueChange={(val)=> setEventType(val)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Event Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ECA">ECA</SelectItem>
+                        <SelectItem value="Holiday">Holiday</SelectItem>
+                        <SelectItem value="Exams">Exams</SelectItem>
+                        <SelectItem value="Events">Events</SelectItem>
+                      </SelectContent>
+                    </Select>
+                
+                </div>
                 <DialogFooter>
                   <Button type="submit">Save Event</Button>
                 </DialogFooter>
@@ -196,3 +227,9 @@ export function EventCalendar({ events, legends }) {
     </div>
   );
 }
+
+
+
+// 1. refresh the page and click on calendar
+// 2. click on calendar 5 times
+// 3. click on calendar once and click on another grid in the calendar
