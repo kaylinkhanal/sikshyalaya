@@ -12,7 +12,7 @@ const Section = () => {
   const [sectionDetails, setSectionDetails] = useState({});
   const fetchSectionDetails = async () => {
     const { data } = await axios.get(
-      process.env.NEXT_PUBLIC_API_URL+"/sections/" + params.sectionId
+      process.env.NEXT_PUBLIC_API_URL + "/sections/" + params.sectionId,
     );
     setSectionDetails(data);
   };
