@@ -21,6 +21,19 @@ const Dashboard = async () => {
   const { data: users } = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/users`,
   );
+  const { data: eventList } = await axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/events`,
+  );
+
+
+
+
+
+
+
+
+
+
   const admins = users.filter((user) => user.role === "admin");
   const teachers = users.filter((user) => user.role === "teacher");
   const students = users.filter((user) => user.role === "student");
@@ -39,50 +52,17 @@ const Dashboard = async () => {
       end: "12:00",
     },
   ];
-
+ 
   const legends = [
-    { type: "eca", label: "ECA", color: "#bfdbfe" },
-    { type: "holiday", label: "Holiday", color: "#bbf7d0" },
-    { type: "deadline", label: "Deadline", color: "#fecaca" },
+    { eventType: "Exams", label: "Exams", color: "#bfdbfe" },
+    { eventType: "ECA", label: "ECA", color: "#bbf7d0" },
+    { eventType: "Events", label: "Events", color: "#fecaca" },
+    { eventType: "Holiday", label: "Holiday", color: "#fecaca" },
+
   ];
 
-  const cevents = [
-    {
-      id: "1",
-      date: new Date(2024, 11, 15),
-      title: "Team Meeting",
-      description: "Weekly sync with the team",
-      type: "eca",
-    },
-    {
-      id: "2",
-      date: new Date(2024, 11, 1),
-      title: "New Year",
-      description: "New Year's Day",
-      type: "holiday",
-    },
-    {
-      id: "3",
-      date: new Date(2024, 11, 20),
-      title: "Project Deadline",
-      description: "Submit final deliverables",
-      type: "deadline",
-    },
-    {
-      id: "4",
-      date: new Date(2024, 11, 25),
-      title: "Christmas",
-      description: "Christmas Day",
-      type: "holiday",
-    },
-    {
-      id: "5",
-      date: new Date(2024, 11, 31),
-      title: "New Year's Eve",
-      description: "End of year celebration",
-      type: "holiday",
-    },
-  ];
+
+
   return (
     <main className="xl:flex w-full gap-[18px]">
       {/* flex-wrap */}
@@ -129,7 +109,7 @@ const Dashboard = async () => {
                 row: "w-full mt-2",
               }}
             /> */}
-            <EventCalendar events={cevents} legends={legends} />
+            <EventCalendar events={eventList} legends={legends} />
           </section>
           <section>
             <strong className="text-2xl">Events</strong>

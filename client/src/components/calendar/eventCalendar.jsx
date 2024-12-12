@@ -9,6 +9,10 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "../ui/dialog";
+import { useState } from "react";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 // interface LegendConfig {
 //   type: string
@@ -31,23 +35,33 @@ import {
 
 // export function EventCalendar({ events, legends }: EventCalendarProps) {
 export function EventCalendar({ events, legends }) {
-  const [date, setDate] = React.useState(new Date());
-
+  const [date, setDate] =useState(new Date());
+  const [isDialogOpen ,setIsDialogOpen] = useState(false)
+  const [eventName, setEventName] = useState("");
+  const [eventDescription, setEventDescription] = useState("");
+  const [eventTime, setEventTime] = useState("");
   // Function to check if a date is an event day and get its event
   const getEvent = (day) =>
-    events.find((event) => event.date.toDateString() === day.toDateString());
+    events.find((event) =>{
+    return  new Date(event.startDate).toDateString() === day.toDateString()
+    });
 
   // Function to get the color for an event type
   const getEventColor = (type) =>
-    legends.find((legend) => legend.type === type)?.color;
+    legends.find((legend) => legend.eventType === type)?.color;
 
+
+  const handleSelection = (date)=>{
+    setIsDialogOpen(true)
+    setDate(date)
+  }
   return (
     <div>
       <TooltipProvider>
         <Calendar
           mode="single"
           selected={date}
-          onSelect={setDate}
+          onSelect={handleSelection}
           className="rounded-md border p-3  "
           classNames={{
             table: "w-full h-full border-collapse space-x-1 space-y-1",
@@ -69,7 +83,7 @@ export function EventCalendar({ events, legends }) {
           components={{
             DayContent: (props) => {
               const event = props.date && getEvent(props.date);
-              const eventColor = getEventColor(event?.type);
+              const eventColor = getEventColor(event?.eventType);
               const isToday =
                 props.date?.toDateString() === new Date().toDateString();
               return (
@@ -117,10 +131,60 @@ export function EventCalendar({ events, legends }) {
             },
           }}
         />
+         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+   
+          <DialogContent>
+            <DialogTitle>Add New Event </DialogTitle>
+            Date: {date}
+            <form onSubmit={null} className="grid gap-4 py-4">
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="event-name" className="text-right">
+                    Name
+                  </Label>
+                  <Input
+                    id="event-name"
+                    placeholder="Enter event name"
+                    className="col-span-3"
+                    value={eventName}
+                    onChange={(e) => setEventName(e.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-start gap-4">
+                  <Label htmlFor="event-description" className="text-right">
+                    Description
+                  </Label>
+                  <Textarea
+                    id="event-description"
+                    placeholder="Enter event description"
+                    className="col-span-3"
+                    value={eventDescription}
+                    onChange={(e) => setEventDescription(e.target.value)}
+                  />
+                </div>
+                <div className="grid grid-cols-4 items-center gap-4">
+                  <Label htmlFor="event-time" className="text-right">
+                    Time
+                  </Label>
+                  <Input
+                    id="event-time"
+                    type="time"
+                    className="col-span-3"
+                    value={eventTime}
+                    onChange={(e) => setEventTime(e.target.value)}
+                  />
+                </div>
+                <DialogFooter>
+                  <Button type="submit">Save Event</Button>
+                </DialogFooter>
+              </form>
+            
+            
+            </DialogContent>
+        </Dialog>
       </TooltipProvider>
       <div className="mt-4 flex flex-wrap gap-4">
         {legends.map((legend) => (
-          <div key={legend.type} className="flex items-center">
+          <div key={legend.eventType} className="flex items-center">
             <div
               className="h-4 w-4 mr-2 rounded"
               style={{ backgroundColor: legend.color }}

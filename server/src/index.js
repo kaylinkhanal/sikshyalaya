@@ -5,6 +5,7 @@ const app = express();
 const { PORT } = process.env;
 const UserRoute = require("./routes/user");
 const ClassRoute = require("./routes/class");
+const EventRoute = require("./routes/event");
 const SubjectRoute = require("./routes/subject");
 
 const dbConnect = require("./db/connection");
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cors());
 app.use(UserRoute);
 app.use(ClassRoute);
+app.use(EventRoute);
 app.use(SubjectRoute);
 // http://localhost:8000/subject/{sectionId}/subject
 
