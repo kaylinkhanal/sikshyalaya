@@ -13,8 +13,8 @@ Smart Schooling Solution
     - [x] Register API
     - [x] Register Form
 
-  - [ ] Login
-    - [ ] email based multi user login
+  - [x] Login
+    - [x] email based multi user login
     - [x] PASSWORD VERIFICATION
     - [x] Login API
     - [x] Login Form
@@ -22,18 +22,20 @@ Smart Schooling Solution
 - [ ] Admin Panel
   - [x] Teacher and Student login approval via Admin 
   - [x] Add different courses and class, and section and classteacher for the section
-- [ ] Teacher Panel
-  - [ ] Teacher can add course content for the subject he is assigned.
-  - [ ] Create multiple topics based on table of contents, and add multiple segments/info to the topics
-- [ ] Student Panel
-  - [ ] Can search/view courses-topics/ info of the topics
+
 
 ### Phase 2: Academic Features
+- [x] Breadcrums in admin for quick access
+- [x] Events and Calendar
+  - [x] Admin can add events into dynamic calendar
 - [x] Send email to teacher/students on approval
-- [x] Grade Book and Report Card Generation
-- [ ] Assignment Submission and Grading
-- [ ] Exam Schedule Management
-- [ ] Library Management System
+- [ ] Teacher Panel
+  - [ ] Teacher can give assignments to students
+  - [ ] Class Teacher can add attendance to students 
+- [ ] Student Panel
+  - [ ] Submit Assignment
+  - [ ] 
+  - [ ] 
 
 ### Phase 3: Communication and Collaboration
 

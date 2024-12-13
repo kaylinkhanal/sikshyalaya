@@ -135,7 +135,7 @@ export function EventCalendar({ events, legends }) {
                       sideOffset={5}
                     >
                       <div className="text-sm">
-                        <p className="font-bold mb-1">{event.title+43324423}</p>
+                        <p className="font-bold mb-1">{event.title}</p>
                         <p>{event.description}</p>
                       </div>
                     </TooltipContent>
