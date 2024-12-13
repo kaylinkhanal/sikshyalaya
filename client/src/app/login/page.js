@@ -1,19 +1,10 @@
 "use client";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Mail, Phone, Lock, User, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-
 import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
@@ -43,7 +34,7 @@ export default function RegisterPage() {
       try {
         const { data } = await axios.post(
           process.env.NEXT_PUBLIC_API_URL + "/login",
-          values,
+          values
         );
         const { isLoggednIn, user } = data;
         if (isLoggednIn) router.push(`/${user.role}/dashboard`);
@@ -65,9 +56,9 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-black text-white">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       <div className="relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center space-y-4 mb-12">
-            <div className="flex justify-center mb-6">
+        <div className="max-w-6xl mx-auto px-10 sm:px-12 lg:px-8 py-4">
+          <div className="text-center space-y-2 mb-6">
+            <div className="flex justify-center mb-1">
               <Image
                 src="/logo.png"
                 alt="Sikshyalaya Logo"
@@ -80,9 +71,9 @@ export default function RegisterPage() {
             <p className="text-lg text-gray-400">Smart Schooling Solution</p>
           </div>
 
-          <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 border border-white/10">
-            <h2 className="text-2xl font-semibold text-center mb-8">
-              Create Your Account
+          <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-4 px-10 border border-white/10">
+            <h2 className="text-2xl font-semibold text-center mb-6">
+              Login Your Account
             </h2>
 
             <form onSubmit={formik.handleSubmit} className="space-y-6">
@@ -142,6 +133,15 @@ export default function RegisterPage() {
                 </Button>
               </div>
             </form>
+            <div className="text-center mt-3">
+              Don't have an account?
+              <span
+                className="cursor-pointer ml-1"
+                onClick={() => router.push("/register")}
+              >
+                register
+              </span>
+            </div>
           </div>
         </div>
       </div>
