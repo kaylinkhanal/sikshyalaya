@@ -54,13 +54,16 @@ export default function Dashboard() {
     direction: "ascending",
   });
   const [page, setPage] = useState(1);
-
+  const [isLoading , setIsLoading] = useState(false)
   const fetchStudentsData = async () => {
+    setIsLoading(true)
     try {
       const { data } = await axios.get(process.env.NEXT_PUBLIC_API_URL + '/users?role=student');
       setStudentList(data);
+      setIsLoading(false)
     } catch (error) {
       console.error("Error fetching student data:", error);
+      setIsLoading(false)
     }
   };
 
@@ -297,6 +300,8 @@ export default function Dashboard() {
     );
   }, [selectedKeys, filteredItems.length, page, pages, onPreviousPage, onNextPage]);
 
+
+  if(isLoading) return "Loading..."
   return (
     (<Table
       aria-label="Example table with custom cells, pagination and sorting"
@@ -309,7 +314,7 @@ export default function Dashboard() {
       selectedKeys={selectedKeys}
       selectionMode="multiple"
       sortDescriptor={sortDescriptor}
-      topContent={topContent}
+      // topContent={topContent}
       topContentPlacement="outside"
       onSelectionChange={setSelectedKeys}
       onSortChange={setSortDescriptor}>
@@ -325,8 +330,8 @@ export default function Dashboard() {
       </TableHeader>
       <TableBody emptyContent={"No students found"} items={sortedItems}>
         {(item) => (
-          <TableRow key={item.id}>
-            {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+          <TableRow key={item._id}>
+            {(columnKey) => <TableCell key={columnKey}>{renderCell(item, columnKey)}</TableCell>}
           </TableRow>
         )}
       </TableBody>
