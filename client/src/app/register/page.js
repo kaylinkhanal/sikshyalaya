@@ -13,13 +13,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-
 import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+
 
 const phoneRegExp = /^[0-9]{10}$/;
-
 const validationSchema = Yup.object({
   email: Yup.string()
     .email("Invalid email address")
@@ -49,6 +49,7 @@ const validationSchema = Yup.object({
 
 export default function RegisterPage() {
   const { toast } = useToast();
+  const router = useRouter()
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -100,7 +101,7 @@ export default function RegisterPage() {
             <p className="text-lg text-gray-400">Smart Schooling Solution</p>
           </div>
 
-          <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 border border-white/10">
+          <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 pb-4 border border-white/10">
             <h2 className="text-2xl font-semibold text-center mb-8">
               Create Your Account
             </h2>
@@ -298,7 +299,7 @@ export default function RegisterPage() {
                 </Button>
               </div>
             </form>
-            <div className="text-center mt-3">
+            <div className="text-center mt-4">
               Already have an account?
               <span
                 className="cursor-pointer ml-1"
