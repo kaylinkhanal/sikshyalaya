@@ -7,7 +7,7 @@ const UserRoute = require("./routes/user");
 const ClassRoute = require("./routes/class");
 const EventRoute = require("./routes/event");
 const SubjectRoute = require("./routes/subject");
-
+const assignmentRoute = require("./routes/assignment");
 const dbConnect = require("./db/connection");
 dbConnect();
 
@@ -18,6 +18,12 @@ app.use(ClassRoute);
 app.use(EventRoute);
 app.use(SubjectRoute);
 // http://localhost:8000/subject/{sectionId}/subject
+
+app.use(assignmentRoute);
+// http://localhost:8000/assignment/{sectionId}/assignments
+// http://localhost:8000/assignment/{assignmentId}
+// http://localhost:8000/assignment/{studentId}/assignments
+// http://localhost:8000/assignment/{studentId}/assignments/{assignmentId}
 
 app.listen(PORT ?? 8080, () => {
   console.log(`Example app listening on port ${PORT ?? 8080}`);
