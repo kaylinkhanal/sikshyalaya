@@ -1,3 +1,4 @@
+'use client'
 import { CircleChart } from "@/components/charts/circle";
 import { StudentAttendance } from "@/components/charts/student-chart";
 import { TotalCountCard } from "@/components/totalCount";
@@ -16,8 +17,18 @@ import { Ellipsis } from "lucide-react";
 import { OptionIcon } from "lucide-react";
 import { EventCalendar } from "@/components/calendar/eventCalendar";
 import React from "react";
+import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+
+
 
 const Dashboard = async () => {
+  const router = useRouter();
+
+const handleLogout =  async() => {
+  router.push("/login");
+  };
+
   const { data: users } = await axios.get(
     `${process.env.NEXT_PUBLIC_API_URL}/users`,
   );
@@ -78,6 +89,12 @@ const eventList=  Object.values(eventmap)
 
   return (
     <main className="xl:flex w-full gap-[18px]">
+      <Button 
+        onClick={handleLogout}
+        className="absolute top-4 right-4 bg-lamaPurple hover:bg-lamaPurple/90"
+      >
+         Logout
+      </Button>
       {/* flex-wrap */}
       <section className="w-full">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-4 gap-[30px]">
