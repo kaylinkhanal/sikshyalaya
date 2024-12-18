@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik, Form, Field, ErrorMessage, useFormik, FormikProvider } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
 import { useToast } from "@/hooks/use-toast";
@@ -32,6 +32,8 @@ import { Trash2Icon } from "lucide-react";
 import ClassLayout from "../../classLayout";
 import Link from "next/link";
 import BreadCrumbsItem from "@/components/dynamic-breadCrumbs";
+import { Edit2Icon } from "lucide-react";
+import { Edit } from "lucide-react";
 
 const Sections = () => {
   const { toast } = useToast();
@@ -40,6 +42,7 @@ const Sections = () => {
   const pathname = usePathname();
 
   const [sectionList, setSectionList] = useState([]);
+  const [formType,setFormType] = useState('Add')
   const [subjectList, setSubjectList] = useState([]);
   const [studentList, setStudentList] = useState([]);
   const [teacherList, setTeacherList] = useState([]);
@@ -126,6 +129,9 @@ const Sections = () => {
     };
 
     try {
+      if(formType === 'Edit'){
+        
+      }
       const { data } = await axios.post(
         `${process.env.NEXT_PUBLIC_API_URL}/class/${params.classId}/sections`,
         dataToSubmit,
@@ -154,34 +160,54 @@ const Sections = () => {
     );
     if (res.status == 200) alert("deleted successfully");
   };
+  const formik = useFormik({
+    initialValues:{
+      sectionName: '' ,
+      subjects: [],
+      classTeacher: null,
+      students: [],
+      teachers:  [],
+      roomNumber:  '',
+    },
+    validationSchema:validationSchema,
+    onSubmit:{handleSubmit}
+  });
 
+
+  const handleEdit =async(e, item)=>{
+    e.stopPropagation();
+    const {data} = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/sections/${item._id}`)
+    setFormType('Edit')
+    formik.setFieldValue('sectionName', data.sectionName)
+    formik.setFieldValue('roomNumber', data.roomNumber)
+    formik.setFieldValue('subjects', data.subjects.map((item)=>{
+       return {label:item.subjectName, id: item._id}
+      }))
+      formik.setFieldValue('teachers', data.teachers.map((item)=>{
+        return {label:item.fullName, id: item._id}
+       }))
+       formik.setFieldValue('students', data.students.map((item)=>{
+        return {label:item.fullName, id: item._id}
+       }))
+ 
+    setIsDialogOpen(true)
+   }
   return (
     <ClassLayout breadCrumbsItem={<BreadCrumbsItem depth={2} />}>
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogTrigger asChild>
-          <Button className="rounded bg-black m-4 text-white" variant="outline">
+          <Button onClick={()=> setFormType('Add')} className="rounded bg-black m-4 text-white" variant="outline">
             Add New Section
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[525px]">
           <DialogHeader>
-            <DialogTitle>Add New Section</DialogTitle>
-            <DialogDescription>Add new section to this class</DialogDescription>
+            <DialogTitle> {formType} New Section</DialogTitle>
+            <DialogDescription>{formType === 'Edit' ? 'Edit Section details': ' Add new section to this class'} </DialogDescription>
           </DialogHeader>
-          <Formik
-            initialValues={{
-              sectionName: "",
-              subjects: [],
-              classTeacher: null,
-              students: [],
-              teachers: [],
-              roomNumber: "",
-            }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
-          >
-            {({ isSubmitting, setFieldValue }) => (
-              <Form>
+         
+          <FormikProvider value={formik}>
+          <Form onSubmit={formik.handleSubmit}>
                 <div className="grid gap-4 py-2">
                   {/* Section Name */}
                   <div className="grid grid-cols-4 items-center gap-2">
@@ -215,7 +241,8 @@ const Sections = () => {
                     <Select
                       isMulti
                       name="subjects"
-                      onChange={(options) => setFieldValue("subjects", options)}
+                      value={formik.values.subjects}
+                      onChange={(options) => formik.setFieldValue("subjects", options)}
                       options={subjectList}
                       className="col-span-3"
                     />
@@ -237,8 +264,9 @@ const Sections = () => {
                     <Select
                       name="classTeacher"
                       onChange={(option) =>
-                        setFieldValue("classTeacher", option)
+                        formik.setFieldValue("classTeacher", option)
                       }
+                      value={formik.values.classTeacher}
                       options={teacherList}
                       className="col-span-3"
                     />
@@ -260,7 +288,8 @@ const Sections = () => {
                     <Select
                       isMulti
                       name="students"
-                      onChange={(options) => setFieldValue("students", options)}
+                      value={formik.values.students}
+                      onChange={(options) => formik.setFieldValue("students", options)}
                       options={studentList}
                       className="col-span-3"
                     />
@@ -281,8 +310,9 @@ const Sections = () => {
                     </Label>
                     <Select
                       isMulti
+                      value={formik.values.teachers}
                       name="teachers"
-                      onChange={(options) => setFieldValue("teachers", options)}
+                      onChange={(options) => formik.setFieldValue("teachers", options)}
                       options={teacherList}
                       className="col-span-3"
                     />
@@ -315,13 +345,14 @@ const Sections = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" disabled={formik.isSubmitting}>
                     Submit
                   </Button>
                 </DialogFooter>
               </Form>
-            )}
-          </Formik>
+         
+          </FormikProvider>
+         
         </DialogContent>
       </Dialog>
 
@@ -427,9 +458,10 @@ const Sections = () => {
         </DialogContent>
       </Dialog>
 
+
       <div className="flex gap-4">
         {sectionList.length > 0 ? (
-          sectionList.map((item) => (
+          sectionList.map((item,id) => (
             <Card
               key={item._id}
               onClick={() => router.push(pathname + "/" + item._id)}
@@ -447,6 +479,7 @@ const Sections = () => {
                     fetchSections();
                   }}
                 />
+                <Edit onClick={(e)=>handleEdit(e, item)}/>
                 <p>Room Number: {item.roomNumber}</p>
                 <p>Total Students: {item.students.length}</p>
               </CardContent>

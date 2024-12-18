@@ -30,39 +30,22 @@ Smart Schooling Solution
   - [x] Admin can add events into dynamic calendar
 - [x] Send email to teacher/students on approval
 - [ ] Teacher Panel
+  - [ ] Teacher Dashboard: Event Calendar
+  - [ ] Teacher can view schedules assigned
   - [ ] Teacher can give assignments to students
   - [ ] Class Teacher can add attendance to students 
+
 - [ ] Student Panel
+  - [ ] Teacher Dashboard: Event Calendar
   - [ ] Submit Assignment
-  - [ ] 
-  - [ ] 
+  - [ ] Students can view attendance 
 
-### Phase 3: Communication and Collaboration
 
-- [x] Announcements and Notifications
-- [ ] Parent-Teacher Communication Portal
-- [ ] Discussion Forums for Students and Teachers
-- [ ] Event Calendar
+### Phase 3: Adding tech
 
-### Phase 4: Administrative Tools
+- [ ] Web Sockets: Adding events should notify all connected users realtime.
+- [ ] GraphQL: User Profile CRUD
 
-- [ ] Timetable Generation
-- [ ] Fee Management
-- [ ] Inventory Management for School Supplies
-- [ ] Staff Payroll System
-
-### Phase 5: Advanced Features
-
-- [ ] Online Learning Management System (LMS) Integration
-- [ ] Student Performance Analytics
-- [ ] Alumni Network and Management
-
-## Getting Started
-
-To get started with the School Management System, follow these steps:
-
-1. Clone the repository
-2. Install dependencies for both client and server:
 
 ```
 cd client 
@@ -107,6 +90,9 @@ This project is licensed under the MIT License - see the `LICENSE.md` file for d
 ## Contact
 
 For any queries or support, please contact our team at support@schoolmanagementsystem.com
+
+
+
 
 
 
