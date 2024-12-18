@@ -60,6 +60,7 @@ export default function RegisterPage() {
       }
     },
   });
+  
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -140,6 +141,18 @@ export default function RegisterPage() {
                 >
                   {formik.isSubmitting ? "Signing In..." : "Login"}
                 </Button>
+                <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                Don't have an account?{" "}
+                <Button
+                  variant="link"
+                  className="text-white hover:text-gray-200 p-0"
+                  onClick={() => router.push('/register')}
+                >
+                  Create an account
+                </Button>
+              </p>
+            </div>
               </div>
             </form>
           </div>
