@@ -2,7 +2,7 @@
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Mail, Phone, Lock, User, Users } from "lucide-react";
+import { Mail, Phone, Lock, User, Users, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -14,9 +14,11 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 
+
 import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
+import { useRouter } from 'next/navigation';
 
 const phoneRegExp = /^[0-9]{10}$/;
 
@@ -73,6 +75,7 @@ export default function RegisterPage() {
       }
     },
   });
+  const router = useRouter()
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -237,6 +240,18 @@ export default function RegisterPage() {
                 >
                   {formik.isSubmitting ? "Creating Account..." : "Create Account"}
                 </Button>
+                <div className="mt-6 text-center">
+              <p className="text-sm text-gray-400">
+                Already have an account?
+              
+                <button
+                  onClick={() => router.push('/login')}
+                  className="text-white hover:underline"
+                >
+                  Click to Login
+                </button>
+              </p>
+            </div>
               </div>
             </form>
           </div>
