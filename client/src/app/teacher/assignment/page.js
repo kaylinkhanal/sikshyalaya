@@ -1,6 +1,8 @@
 'use client'
-import React from 'react';
+import React, {useState} from 'react';
 import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Input } from '@/components/ui/input';
+import { PlusCircleIcon } from 'lucide-react';
 
 // Create styles
 const styles = {
@@ -40,16 +42,29 @@ const styles = {
 };
 
 
-const MyDocument = () => (
+const MyDocument = () => {
+  const [questions, setQuestions] = useState([{title:'', marks:0}])
+  const handleChange = (e,id,type)=>{
+    const existingQuestions = [...questions]
+    existingQuestions[id][type] = e.target.value
+    setQuestions(existingQuestions)
+  }
+  return(
  <>
 
  <p>Type your questions:</p>
-<input className='text-white m-4'/>
-<input className='text-white m-4'/>
-<input className='text-white m-4'/>
-<input className='text-white m-4'/>
-<input className='text-white m-4'/>
-<input className='text-white m-4'/>
+ {questions.map((item,id)=>{
+  return(
+    <div className='flex gap-4 mt-3'>
+     <Input  value={item.value} onChange={(e)=>handleChange(e,id,'title')} placeholder={"Enter question for assignment no "+(id+1)}/> 
+     <Input className='w-36 ' value={item.value} onChange={(e)=>handleChange(e,id,'marks')} placeholder="Enter Full Marks" /> 
+    </div>
+     
+     )
+ })}
+
+<PlusCircleIcon onClick={()=>setQuestions([...questions, {title:'', marks:0}])}/>
+
 
 
   <Document>
@@ -121,6 +136,6 @@ const MyDocument = () => (
   </Document>
  
  </>
-);
+)};
 
 export default MyDocument
