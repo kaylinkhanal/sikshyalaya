@@ -7,6 +7,7 @@ import Underline from '@tiptap/extension-underline'
 import TextAlign from '@tiptap/extension-text-align'
 import Image from '@tiptap/extension-image'
 import EditorToolbar from './editor-toolbar'
+import { Button } from './ui/button'
 
 const TiptapEditor = () => {
   const editor = useEditor({
@@ -28,9 +29,9 @@ const TiptapEditor = () => {
 
   return (
     (<div className="border rounded-md overflow-hidden">
-      {editor?.getHTML()}
       <EditorToolbar editor={editor} />
       <EditorContent editor={editor} />
+ 
     </div>)
   );
 }

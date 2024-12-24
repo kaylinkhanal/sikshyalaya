@@ -19,6 +19,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
+import { useSelector } from "react-redux";
 
 const phoneRegExp = /^[0-9]{10}$/;
 
@@ -47,6 +48,7 @@ const validationSchema = Yup.object({
 });
 
 export default function RegisterPage() {
+  const {value} = useSelector(state=>state.counter)
   const { toast } = useToast()
   const formik = useFormik({
     initialValues: {
@@ -79,6 +81,7 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+      {value}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
       <div className="relative">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

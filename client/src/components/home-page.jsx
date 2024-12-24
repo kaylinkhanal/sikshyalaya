@@ -119,3 +119,56 @@ export default function HomePageComponent() {
     </div>
   )
 }
+
+
+
+
+
+// Redux
+
+// -> global state management tool
+// -> solving props drilling issue
+// -> based on flux
+// alternative: jotai, zustand, recoil
+
+
+
+// -initialState?
+//   ---> default state
+//   --->{
+//       userName:'',
+//       otp: '',
+//       studentList: [],
+//       milk:'5.1l',
+//       chocolate: 'kitkat'
+//   }
+
+
+// reducer function ==== action 
+
+//   oldstate-----action/reducer function-------> newState
+  
+//  reducer function :  giveMeChocolate('milkybar')
+
+
+// -dispatching action?
+
+
+
+
+
+
+// //login/page.js
+
+// const [userName,setUserName]= useState('')
+
+
+
+// //otp/page.js
+
+// const [otp,setOtp]= useState('')
+
+
+// //studnetTable/page.js
+
+// const [studentList,setStudentList]= useState([])
