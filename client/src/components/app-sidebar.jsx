@@ -33,6 +33,7 @@ export function AppSidebar(props) {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+               
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

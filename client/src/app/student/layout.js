@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Home, Inbox, Settings } from "lucide-react"
+import CartItems from "@/components/cart-items"
 const studentItems = [
   {
     title: "Dashboard",
@@ -25,6 +26,7 @@ export default function Layout({ children }) {
       <main>
         <SidebarTrigger />
         {children}
+        <CartItems/>
       </main>
     </SidebarProvider>
   )

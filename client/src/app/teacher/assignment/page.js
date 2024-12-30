@@ -1,3 +1,4 @@
+'use client'
 import AssignmentTemplateGenerator from '@/components/assignment-template-generator';
 import dynamic from 'next/dynamic'
 import { useSelector } from 'react-redux';

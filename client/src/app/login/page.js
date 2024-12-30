@@ -18,6 +18,7 @@ import Image from "next/image";
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 
 const phoneRegExp = /^[0-9]{10}$/;
 
@@ -31,6 +32,7 @@ const validationSchema = Yup.object({
 });
 
 export default function RegisterPage() {
+
   const router = useRouter();
   const { toast } = useToast();
   const formik = useFormik({
