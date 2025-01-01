@@ -37,6 +37,7 @@ export default function RegisterPage() {
   const dispatch  = useDispatch()
   const router = useRouter();
   const { toast } = useToast();
+  
   const formik = useFormik({
     initialValues: {
       email: "",
