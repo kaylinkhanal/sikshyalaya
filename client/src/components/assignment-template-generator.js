@@ -8,12 +8,13 @@ import { DatePicker } from "./date-picker"
 import { AssignmentTemplate } from "./assignment-template"
 import axios from 'axios'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select'
+import { useSelector } from 'react-redux'
 
 export default function AssignmentTemplateGenerator() {
   const [questions, setQuestions] = useState([{ title: '', marks: 0 }])
   const [dueDate, setDueDate] = useState(undefined)
   const [courseName, setCourseName] = useState('')
-  const [teacherName, setTeacherName] = useState('')
+  const {userDetails } = useSelector(state=>state.user)
   const [subjectList, setSubjectList] = useState([])
   const fetchSubjects = async () => {
     const { data } = await axios.get(
@@ -61,8 +62,8 @@ export default function AssignmentTemplateGenerator() {
       </SelectContent>
     </Select>
         <Input
-          value={teacherName}
-          onChange={(e) => setTeacherName(e.target.value)}
+          value={userDetails.fullName}
+          disabled={true}
           placeholder="Enter teacher name" />
         <DatePicker date={dueDate} setDate={setDueDate} />
       </div>
@@ -88,7 +89,7 @@ export default function AssignmentTemplateGenerator() {
         questions={questions}
         dueDate={dueDate}
         courseName={ subjectList.find(item=> item._id == courseName)?.subjectName || ''}
-        teacherName={teacherName} />
+        teacherName={userDetails.fullName} />
 
       <Button className="mt-4">
               Create new assignment

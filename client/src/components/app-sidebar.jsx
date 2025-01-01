@@ -11,14 +11,19 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import Link from "next/link"
+import { useSelector } from "react-redux"
+import SidebarTheme from "./ui/sidebar-theme"
 
 // Menu items.
 
 
 export function AppSidebar(props) {
+
   return (
-    <Sidebar>
-      <SidebarContent className="backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 border border-white/10">
+ 
+  <Sidebar>
+    <SidebarTheme>
+    <SidebarContent className="backdrop-blur-sm  rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 border border-white/10">
         <SidebarGroup>
           <SidebarGroupLabel >Sikshyalaya</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -38,6 +43,10 @@ export function AppSidebar(props) {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+    </SidebarTheme>
+   
     </Sidebar>
+
+  
   )
 }

@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import { CircleChart } from "@/components/charts/circle";
 import { StudentAttendance } from "@/components/charts/student-chart";
 import { TotalCountCard } from "@/components/totalCount";
@@ -17,16 +17,16 @@ import { Ellipsis } from "lucide-react";
 import { OptionIcon } from "lucide-react";
 import { EventCalendar } from "@/components/calendar/eventCalendar";
 import React from "react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
 
 
 const Dashboard = async () => {
-  const router = useRouter();
+  // const router = useRouter();
 
 const handleLogout =  async() => {
-  router.push("/login");
+  // router.push("/login");
   };
 
   const { data: users } = await axios.get(
@@ -90,7 +90,6 @@ const eventList=  Object.values(eventmap)
   return (
     <main className="xl:flex w-full gap-[18px]">
       <Button 
-        onClick={handleLogout}
         className="absolute top-4 right-4 bg-lamaPurple hover:bg-lamaPurple/90"
       >
          Logout

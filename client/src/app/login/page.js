@@ -19,6 +19,8 @@ import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
+import { loginUser } from "@/lib/redux/slices/userSlice";
+import { useDispatch } from "react-redux";
 
 const phoneRegExp = /^[0-9]{10}$/;
 
@@ -32,7 +34,7 @@ const validationSchema = Yup.object({
 });
 
 export default function RegisterPage() {
-
+  const dispatch  = useDispatch()
   const router = useRouter();
   const { toast } = useToast();
   const formik = useFormik({
@@ -50,6 +52,7 @@ export default function RegisterPage() {
         const { isLoggednIn, user } = data;
         if (isLoggednIn) router.push(`/${user.role}/dashboard`);
         if (data) {
+          dispatch(loginUser(data))
           toast({
             title: data.msg,
           });

@@ -3,6 +3,8 @@ import counterSlice from './slices/counterSlice'
 import logger from 'redux-logger'
 import cardSlice from './slices/cardSlice'
 import productSlice from './slices/productSlice'
+import userSlice from './slices/userSlice'
+
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
@@ -14,7 +16,8 @@ const persistConfig = {
 const reducers =combineReducers({
   counter: counterSlice,
   card: cardSlice,
-  product: productSlice
+  product: productSlice,
+  user:userSlice
 })
 const persistedReducer = persistReducer(persistConfig, reducers);
 export const store = configureStore({
