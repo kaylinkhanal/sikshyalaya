@@ -17,6 +17,7 @@ import { Ellipsis } from "lucide-react";
 import { OptionIcon } from "lucide-react";
 import { EventCalendar } from "@/components/calendar/eventCalendar";
 import React from "react";
+import ProfileSection from "@/components/profile-section";
 // import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
@@ -89,11 +90,7 @@ const eventList=  Object.values(eventmap)
 
   return (
     <main className="xl:flex w-full gap-[18px]">
-      <Button 
-        className="absolute top-4 right-4 bg-lamaPurple hover:bg-lamaPurple/90"
-      >
-         Logout
-      </Button>
+     <ProfileSection/>
       {/* flex-wrap */}
       <section className="w-full">
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3 3xl:grid-cols-4 gap-[30px]">

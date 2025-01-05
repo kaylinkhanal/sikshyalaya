@@ -80,25 +80,7 @@ export default function RegisterPage() {
   const router = useRouter()
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {value}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
-      <div className="relative">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center space-y-4 mb-12">
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/logo.png"
-                alt="Sikshyalaya Logo"
-                width={120}
-                height={120}
-                className="rounded-lg"
-              />
-            </div>
-            <h1 className="text-4xl font-bold tracking-tight">SIKSHYALAYA</h1>
-            <p className="text-lg text-gray-400">Smart Schooling Solution</p>
-          </div>
-
+    
           <div className="max-w-2xl mx-auto backdrop-blur-sm bg-white/10 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.07)] p-8 border border-white/10">
             <h2 className="text-2xl font-semibold text-center mb-8">Create Your Account</h2>
 
@@ -258,8 +240,6 @@ export default function RegisterPage() {
               </div>
             </form>
           </div>
-        </div>
-      </div>
-    </div>
+   
   );
 }

@@ -8,10 +8,11 @@ const ClassRoute = require("./routes/class");
 const EventRoute = require("./routes/event");
 const SubjectRoute = require("./routes/subject");
 const ProductRoute = require("./routes/product");
-
+const Section = require('./models/section')
 
 const dbConnect = require("./db/connection");
 dbConnect();
+
 
 app.use(express.json());
 app.use(cors());

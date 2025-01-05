@@ -98,9 +98,9 @@ const Sections = () => {
   // Validation schema using Yup
   const validationSchema = Yup.object({
     sectionName: Yup.string().required("Section Name is required"),
-    subjects: Yup.array()
-      .min(1, "At least one subject is required")
-      .required("Subjects are required"),
+    // subjects: Yup.array()
+    //   .min(1, "At least one subject is required")
+    //   .required("Subjects are required"),
     classTeacher: Yup.object()
       .shape({
         label: Yup.string().required("Class teacher label is required"),
@@ -123,7 +123,7 @@ const Sections = () => {
       ...values,
       class: params.classId,
       classTeacher: values.classTeacher.value,
-      subjects: values.subjects.map((subject) => subject.value),
+      // subjects: values.subjects.map((subject) => subject.value),
       students: values.students.map((student) => student.value),
       teachers: values.teachers.map((teacher) => teacher.value),
     };
@@ -163,16 +163,29 @@ const Sections = () => {
   const formik = useFormik({
     initialValues:{
       sectionName: '' ,
-      subjects: [],
+      // subjects: [],
       classTeacher: null,
       students: [],
       teachers:  [],
       roomNumber:  '',
     },
     validationSchema:validationSchema,
-    onSubmit:{handleSubmit}
+    onSubmit:handleSubmit
   });
 
+  const handleSubjectCreation = async(values)=>{
+   const res=await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/sections/${values?.section?.value}/subjects`, {
+      teacher:values?.teacher?.value,
+      subjectName: values?.subjectName,
+      classId:params.classId
+    })
+
+    if(res.status == '200'){
+      toast({
+        title: res?.data?.msg,
+      });
+    }
+  }
 
   const handleEdit =async(e, item)=>{
     e.stopPropagation();
@@ -180,9 +193,9 @@ const Sections = () => {
     setFormType('Edit')
     formik.setFieldValue('sectionName', data.sectionName)
     formik.setFieldValue('roomNumber', data.roomNumber)
-    formik.setFieldValue('subjects', data.subjects.map((item)=>{
-       return {label:item.subjectName, id: item._id}
-      }))
+    // formik.setFieldValue('subjects', data.subjects.map((item)=>{
+    //    return {label:item.subjectName, id: item._id}
+    //   }))
       formik.setFieldValue('teachers', data.teachers.map((item)=>{
         return {label:item.fullName, id: item._id}
        }))
@@ -231,7 +244,7 @@ const Sections = () => {
                   </div>
 
                   {/* Subjects */}
-                  <div className="grid grid-cols-4 items-center gap-2">
+                  {/* <div className="grid grid-cols-4 items-center gap-2">
                     <Label
                       htmlFor="subjects"
                       className="text-right font-semibold"
@@ -251,7 +264,7 @@ const Sections = () => {
                       component="div"
                       className="text-red-500 col-span-4 text-right text-sm"
                     />
-                  </div>
+                  </div> */}
 
                   {/* Class Teacher */}
                   <div className="grid grid-cols-4 items-center gap-2">
@@ -373,8 +386,8 @@ const Sections = () => {
               section: "",
               teacher: "",
             }}
-            validationSchema={validationSchema}
-            onSubmit={handleSubmit}
+            // validationSchema={validationSchema}
+            onSubmit={handleSubjectCreation}
           >
             {({ isSubmitting, setFieldValue }) => (
               <Form>
@@ -448,7 +461,7 @@ const Sections = () => {
                   </div>
                 </div>
                 <DialogFooter>
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" >
                     Submit
                   </Button>
                 </DialogFooter>

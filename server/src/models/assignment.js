@@ -3,9 +3,13 @@ const { Schema } = mongoose;
 
 const AssignmentSchema = new mongoose.Schema(
   {
-    course: {
-      type: String,
-      required: true,
+    section: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Section",
+    },
+    subject: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Subject",
     },
     dueDate: {
       type: Date,

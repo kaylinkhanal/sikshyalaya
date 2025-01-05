@@ -16,8 +16,9 @@ export function AssignmentTemplate({ questions, dueDate, courseName, teacherName
       <div className="flex justify-between items-center mb-6">
       
         <img
-          src="/placeholder.svg?height=40&width=120"
+           src="/logo.png"
           alt="School Logo"
+          height={160}
           className="h-10" />
         <h1 className="text-3xl font-bold text-center flex-grow">SIKSHALAYA ASSIGNMENTS</h1>
       </div>
