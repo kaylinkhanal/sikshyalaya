@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+
 const AssignmentSchema = new mongoose.Schema(
   {
     section: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Section",
+    },
+    gradeLevel: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Class",
     },
     subject: {
       type: mongoose.Schema.Types.ObjectId,

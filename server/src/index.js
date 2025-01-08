@@ -8,7 +8,9 @@ const ClassRoute = require("./routes/class");
 const EventRoute = require("./routes/event");
 const SubjectRoute = require("./routes/subject");
 const ProductRoute = require("./routes/product");
-const Section = require('./models/section')
+const AssignmentRoute = require("./routes/assignment");
+
+
 
 const dbConnect = require("./db/connection");
 dbConnect();
@@ -21,6 +23,7 @@ app.use(ClassRoute);
 app.use(EventRoute);
 app.use(SubjectRoute);
 app.use(ProductRoute);
+app.use(AssignmentRoute);
 
 
 // http://localhost:8000/subject/{sectionId}/subject

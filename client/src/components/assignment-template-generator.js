@@ -24,13 +24,15 @@ export default function AssignmentTemplateGenerator() {
   const {userDetails} = useSelector(state=>state.user)
   const [subjectList, setSubjectList] = useState([])
   const [classId, setClassId] = useState('')
+  const [sectionId, setSectionId] = useState('')
   const [classList, setClassList] = useState([])
   const [sectionList, setSectionList ] = useState([])
 
   const submitAssignment = async ()=>{
+    debugger;
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/assignments`,
-      {section,subject:subjectId,dueDate,questionsSet:questions,createdBy:userDetails._id }
+      {section: sectionId, gradeLevel: classId, subject:subjectId,dueDate,questionsSet:questions,createdBy:userDetails._id }
     );
     if(data.msg){
       toast({
@@ -108,11 +110,10 @@ export default function AssignmentTemplateGenerator() {
         ))}
       </SelectContent>
     </Select>
-          {JSON.stringify(classId)}
 
     <Select value={classId} onValueChange={setClassId}>
       <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Select year" />
+        <SelectValue placeholder="Select Grade" />
       </SelectTrigger>
       <SelectContent>
         {classList.map((item) => (
@@ -122,7 +123,20 @@ export default function AssignmentTemplateGenerator() {
         ))}
       </SelectContent>
     </Select>
-    {JSON.stringify(sectionList)}
+    <Select onValueChange={(value)=>setSectionId(value)}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Select Section" />
+      </SelectTrigger>
+      {/* setCourseName(e.target.value) */}
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Section</SelectLabel>
+          {sectionList.map((item)=>{
+            return   <SelectItem  key={item._id} value={item._id}>{item.sectionName}</SelectItem>
+          })}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
       <Select onValueChange={(value)=>setSubjectId(value)}>
       <SelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a subject" />
@@ -161,11 +175,15 @@ export default function AssignmentTemplateGenerator() {
       <Button onClick={addQuestion} className="mb-8">
         <PlusCircle className="mr-2 h-4 w-4" /> Add Question
       </Button>
-      <AssignmentTemplate
+     { sectionId && classId && subjectId && <AssignmentTemplate
         questions={questions}
         dueDate={dueDate}
-        courseName={ subjectList.find(item=> item._id == setSubjectId)?.subjectName || ''}
-        teacherName={userDetails.fullName} />
+        courseName={ subjectList.find(item=> item._id == subjectId)?.subjectName +
+           ' Grade-' + classList?.find(item=> item._id == classId)?.gradeLevel +
+           ' Section-' +
+           sectionList?.find(item=> item._id == sectionId)?.sectionName
+           || ''}
+        teacherName={userDetails.fullName} />}
 
       <Button className="mt-4" onClick={submitAssignment}>
               Create new assignment

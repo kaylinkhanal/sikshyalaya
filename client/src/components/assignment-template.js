@@ -24,9 +24,9 @@ export function AssignmentTemplate({ questions, dueDate, courseName, teacherName
       </div>
       <div
         className="w-full h-32 mb-6 rounded bg-cover bg-center"
-        style={{backgroundImage: "url('/placeholder.svg?height=200&width=800')"}}>
+       >
         <div
-          className="w-full h-full bg-black bg-opacity-50 flex items-center justify-center">
+          className="w-full h-full bg-black flex items-center justify-center">
           <h2 className="text-white text-3xl font-bold">{courseName}</h2>
         </div>
       </div>
