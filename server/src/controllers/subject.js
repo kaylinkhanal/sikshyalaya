@@ -34,6 +34,13 @@ const getSubjectsOfParticularTeacher = async (req, res) => {
 
 
 
+const getSubjectsOfParticularStudent = async (req, res) => {
+  const section = await Section.findOne({students:req.params.studentId })
+  const subjects = await Subject.find({section: section._id})
+res.json(subjects)
+};
 
 
-module.exports = {postNewSubjectInSectionId,getsSubjectBySectionId,getAllSubjects,getSubjectsOfParticularTeacher}
+
+
+module.exports = {postNewSubjectInSectionId,getSubjectsOfParticularStudent,getsSubjectBySectionId,getAllSubjects,getSubjectsOfParticularTeacher}

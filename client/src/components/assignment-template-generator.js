@@ -10,12 +10,14 @@ import axios from 'axios'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
+import { SparkleIcon } from 'lucide-react'
+import { StarsIcon } from 'lucide-react'
 
 
 export default function AssignmentTemplateGenerator() {
   const currentYear = new Date().getFullYear()
   const [selectedYear, setSelectedYear] = useState(currentYear.toString())
-
+  const [prompt, setPrompt] = useState('')
   // Generate an array with this year and last year
   const years = [currentYear.toString(), (currentYear - 1).toString()]
   const [questions, setQuestions] = useState([{ title: '', marks: 0 }])
@@ -27,6 +29,34 @@ export default function AssignmentTemplateGenerator() {
   const [sectionId, setSectionId] = useState('')
   const [classList, setClassList] = useState([])
   const [sectionList, setSectionList ] = useState([])
+
+  const generateQuestions = async( )=>{
+    const subjectName = subjectList.find(item=> item._id == classId)?.name
+    const gradeLevel = classList.find(item=> item._id == classId)?.name
+  const {data} =await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyD5XnfofzJQNxrjn7cWYObAE_wxIA1i3M0',
+  {
+    "contents": [{
+      "parts":[{"text": `${prompt}. The question level should be for grade level ${gradeLevel} students and subject should be ${subjectName}, and result should be in array of objects [{ title: '', marks: 0 }] like this. Just return an array back, i do not need answers.
+  
+
+i would strictly only like to get output as following without adding any other texts:
+[{ title: 'Multiply 7 by 9.', marks: 2 }]
+
+
+Do not add any trailing nextlines in output it should be perfect array of objects.  Dont add new lines or spaces at all. Send response itself in JSON.parse
+      `}]
+      }]
+      
+     })
+     if(data?.candidates && data.candidates[0].content.parts[0].text){
+      debugger;
+      const cleanJsonString = data.candidates[0].content.parts[0].text.replace(/```json\n|```/g, '').replaceAll('\n','');
+      const assignments = JSON.parse(cleanJsonString);
+      setQuestions(assignments)
+     }
+
+  }
+
 
   const submitAssignment = async ()=>{
     debugger;
@@ -157,6 +187,10 @@ export default function AssignmentTemplateGenerator() {
           placeholder="Enter teacher name" />
         <DatePicker date={dueDate} setDate={setDueDate} />
       </div>
+      <Input placeholder="Generate your assignemnts questions with prompt" value={prompt} onChange={(e)=>setPrompt(e.target.value)}/>
+      <Button onClick={generateQuestions} variant="outline" className="text-white">Generate Question
+      <StarsIcon/>
+      </Button>
       <h2 className="text-xl font-semibold mb-4">Assignment Questions:</h2>
       {questions.map((item, id) => (
         <div key={id} className="flex gap-4 mb-4">
