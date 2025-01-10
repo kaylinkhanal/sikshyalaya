@@ -100,7 +100,6 @@ const Section = () => {
 								<th className="text-left px-2"> Is Verified</th>
 								<th className="text-left px-2">Father Name</th>
 								<th className="text-left px-2">Mother Name</th>
-								<th className="text-left px-2">Phone Number</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -112,7 +111,6 @@ const Section = () => {
 									<td className="px-2">{student.isVerified ? "Yes" : "No"}</td>
 									<td className="px-2">{student.fatherName}</td>
 									<td className="px-2">{student.motherName}</td>
-									<td className="px-2">{student.phoneNumber}</td>
 								</tr>
 							))}
 						</tbody>
