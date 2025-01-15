@@ -1,26 +1,39 @@
-const express = require('express')
-const app = express()
-const port = 8000
-const cors = require('cors');
-require('dotenv').config()
-const UserRoute = require('./routes/user')
-const ClassRoute = require('./routes/class')
-const SubjectRoute = require('./routes/subject')
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+const app = express();
+const { PORT } = process.env;
+const UserRoute = require("./routes/user");
+const ClassRoute = require("./routes/class");
+const EventRoute = require("./routes/event");
+const SubjectRoute = require("./routes/subject");
+const ProductRoute = require("./routes/product");
+const SubmissionRoute = require('./routes/submission')
+const AssignmentRoute = require("./routes/assignment");
 
-const dbConnect = require('./db/connection');
-dbConnect()
 
-app.use(express.json())
-app.use(cors())
-app.use(UserRoute)
-app.use(ClassRoute)
-app.use(SubjectRoute)
+
+const dbConnect = require("./db/connection");
+dbConnect();
+
+
+app.use(express.json());
+app.use(cors());
+app.use(UserRoute);
+app.use(ClassRoute);
+app.use(EventRoute);
+app.use(SubjectRoute);
+app.use(ProductRoute);
+app.use(AssignmentRoute);
+app.use(SubmissionRoute);
+
+
+
 // http://localhost:8000/subject/{sectionId}/subject
 
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
+app.listen(PORT ?? 8080, () => {
+  console.log(`Example app listening on port ${PORT ?? 8080}`);
+});
 
 // MONGODB
 
@@ -32,17 +45,3 @@ app.listen(port, () => {
 //           tabular form                               object based
 //           User.findAll()--->ORM(sequalize)           User.find()  ---> ODM(Object Data Modeling) (mongoose)
 //           relational DB                              schemaless/non-relationaldb
-
-
-
-
-
-
-
-
-
-
-
-
-
-

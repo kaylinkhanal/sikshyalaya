@@ -9,13 +9,18 @@ const addNewClass = async (req, res) => {
   };
 
   const getAllClass = async (req, res) => {
-    const data = await  Class.find()
+    let data 
+    if(req?.query?.academicYear){
+       data = await Class.find({academicYear: req.query.academicYear})
+    }else{
+       data = await  Class.find()
+    }
     res.send(data)
   };
 
   
   const getSectionsByClassId = async (req, res) => {
-  const data = await  Section.find({class: req.params.classId}).populate("subjects")
+  const data = await  Section.find({class: req.params.classId})
     res.send(data)
   };
 
@@ -34,9 +39,14 @@ const addNewClass = async (req, res) => {
   
 
   const getSectionById = async (req, res) => {
-    const data =  await Section.findById(req.params.sectionId).populate('classTeacher')
+    const data =  await Section.findById(req.params.sectionId).populate('classTeacher students teachers subjects')
     if(data) res.send(data)
     };
+
+    const getSectionsOfParticularTeacher = async(req,res)=>{
+      const data = await Section.find({})
+    }
+
     
-  module.exports = {addNewClass,getAllClass,getSectionById,deleteSectionById,getSectionsByClassId,postNewSectionInClassId }; 
+  module.exports = {addNewClass,getAllClass,getSectionsOfParticularTeacher, getSectionById,deleteSectionById,getSectionsByClassId,postNewSectionInClassId }; 
   
