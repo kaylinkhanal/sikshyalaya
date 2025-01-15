@@ -15,7 +15,7 @@ const studentItems = [
   },
   {
     title: "Assignments",
-    url: "/students/assignments",
+    url: "/student/assignments",
     icon: Inbox,
   },
   {

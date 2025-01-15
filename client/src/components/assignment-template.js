@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import { format } from 'date-fns'
 import dynamic from 'next/dynamic'
 import { useParams } from 'next/navigation'
@@ -8,6 +9,7 @@ import { Button } from './ui/button'
 const TiptapEditor = dynamic(() => import('./tiptap-editor'), { ssr: false })
 
 export function AssignmentTemplate({ questions, dueDate, courseName, teacherName }) {
+  const [answers, setAnswers] = useState([])
   const params = usePathname()
   const totalMarks = questions.reduce((sum, question) => sum + question.marks, 0)
 
@@ -35,6 +37,7 @@ export function AssignmentTemplate({ questions, dueDate, courseName, teacherName
         <p className="text-lg"><strong>Due Date:</strong> {dueDate ? format(dueDate, 'MMMM d, yyyy') : 'Not specified'}</p>
         <p className="text-lg"><strong>Total Marks:</strong> {totalMarks}</p>
       </div>
+      {JSON.stringify(answers)}
       {questions.map((question, index) => (
         <div key={index} className="mb-8 page-break-before">
           <div className="mb-4">
@@ -42,7 +45,7 @@ export function AssignmentTemplate({ questions, dueDate, courseName, teacherName
             <p className="text-md text-gray-600">Marks: {question.marks}</p>
           </div>
           <div className="border border-gray-300 rounded-md">
-            {params == '/teacher/assignment' ?    <div className='h-72 bg-white'></div> : <TiptapEditor /> }
+            {params == '/teacher/assignment' ?    <div className='h-72 bg-white'></div> : <TiptapEditor answers={answers} setAnswers={setAnswers} question={question._id} /> }
 
           </div>
     
