@@ -8,6 +8,7 @@ const ClassRoute = require("./routes/class");
 const EventRoute = require("./routes/event");
 const SubjectRoute = require("./routes/subject");
 const ProductRoute = require("./routes/product");
+const SubmissionRoute = require('./routes/submission')
 const AssignmentRoute = require("./routes/assignment");
 
 
@@ -24,6 +25,8 @@ app.use(EventRoute);
 app.use(SubjectRoute);
 app.use(ProductRoute);
 app.use(AssignmentRoute);
+app.use(SubmissionRoute);
+
 
 
 // http://localhost:8000/subject/{sectionId}/subject
