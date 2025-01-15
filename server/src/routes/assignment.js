@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const { addNewAssignment } = require('../controllers/assignment');
+const { addNewAssignment ,getAssignments} = require('../controllers/assignment');
   router.post('/assignments', addNewAssignment)
+  router.get('/assignments', getAssignments)
+
   
 module.exports = router

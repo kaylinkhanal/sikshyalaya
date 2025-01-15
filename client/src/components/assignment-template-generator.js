@@ -36,7 +36,7 @@ export default function AssignmentTemplateGenerator() {
   const {data} =await axios.post('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=AIzaSyD5XnfofzJQNxrjn7cWYObAE_wxIA1i3M0',
   {
     "contents": [{
-      "parts":[{"text": `${prompt}. The question level should be for grade level ${gradeLevel} students and subject should be ${subjectName}, and result should be in array of objects [{ title: '', marks: 0 }] like this. Just return an array back, i do not need answers.
+      "parts":[{"text": `${prompt}. The question level should be for grade level ${gradeLevel} students and subject should be ${subjectName}, and result should be in array of objects [{ title: '', marks: 0 }] like this. Just return an array back, i do not need answers, do not add JSON.parse inside the response . Do not add \n at the end.
   
 
 i would strictly only like to get output as following without adding any other texts:
@@ -64,9 +64,9 @@ Do not add any trailing nextlines in output it should be perfect array of object
       `${process.env.NEXT_PUBLIC_API_URL}/assignments`,
       {section: sectionId, gradeLevel: classId, subject:subjectId,dueDate,questionsSet:questions,createdBy:userDetails._id }
     );
-    if(data.msg){
+    if(data){
       toast({
-        title: data.msg
+        title: 'Assignment Created!!'
       })
     }
 
