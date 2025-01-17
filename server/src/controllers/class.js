@@ -39,7 +39,15 @@ const addNewClass = async (req, res) => {
   
 
   const getSectionById = async (req, res) => {
-    const data =  await Section.findById(req.params.sectionId).populate('classTeacher students teachers subjects')
+    const data =  await Section.findById(req.params.sectionId).populate('classTeacher students teachers subjects class')
+    .populate({ 
+      path: 'subjects',
+      populate: {
+        path: 'teacher',
+        model: 'User', 
+        select: 'fullName' 
+      }
+    })
     if(data) res.send(data)
     };
 

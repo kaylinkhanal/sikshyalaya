@@ -36,7 +36,7 @@ const Section = () => {
 				<h1 className="font-bold">Section Details</h1>
 				<hr />
 				<p>Section Name: {sectionDetails.sectionName}</p>
-				<p>ClassId: {sectionDetails.class}</p>
+				<p>Class: {sectionDetails.class?.gradeLevel}</p>
 				<p>Room Number: {sectionDetails.roomNumber}</p>
 
 				<h2>Class Teacher</h2>
@@ -73,14 +73,14 @@ const Section = () => {
 						<thead className="bg-pink-400">
 							<tr>
 								<th className="text-left px-2">Subject Name</th>
-								<th className="text-left px-2">Teacher ID</th>
+								<th className="text-left px-2">Teacher</th>
 							</tr>
 						</thead>
 						<tbody>
 							{sectionDetails.subjects.map((subject) => (
 								<tr key={subject._id}>
 									<td className="px-2">{subject.subjectName}</td>
-									<td className="px-2">{subject.teacher}</td>
+									<td className="px-2">{subject.teacher?.fullName}</td>
 								</tr>
 							))}
 						</tbody>

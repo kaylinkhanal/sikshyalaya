@@ -126,7 +126,7 @@ Do not add any trailing nextlines in output it should be perfect array of object
 
   return (
     (<div className="max-w-4xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Assignment Template Generator</h1>
+      <h1 className="text-3xl font-bold mb-6">Create Assignment</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
       <Select value={selectedYear} onValueChange={setSelectedYear}>
       <SelectTrigger className="w-[180px]">

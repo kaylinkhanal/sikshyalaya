@@ -44,6 +44,7 @@ const Assignment = () => {
           <AssignmentTemplate
         questions={currentAssignmentDetails?.questionsSet}
         dueDate={currentAssignmentDetails.dueDate}
+        id={currentAssignmentDetails._id}
         courseName={ currentAssignmentDetails.subject?.subjectName}
         teacherName={currentAssignmentDetails.createdBy?.fullName} />
           </div>
