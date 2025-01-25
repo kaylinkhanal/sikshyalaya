@@ -1,7 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const http = require('http');
+const { Server } = require("socket.io");
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
+  }
+});
+
+
+
 const { PORT } = process.env;
 const UserRoute = require("./routes/user");
 const ClassRoute = require("./routes/class");
@@ -29,9 +42,22 @@ app.use(SubmissionRoute);
 
 
 
+io.on('connection', (socket) => {
+
+
+
+  socket.on('assignment', (assignment) => {
+    io.emit('assignment',assignment) //
+  });
+  
+});
+
+
+
+
 // http://localhost:8000/subject/{sectionId}/subject
 
-app.listen(PORT ?? 8080, () => {
+server.listen(PORT ?? 8080, () => {
   console.log(`Example app listening on port ${PORT ?? 8080}`);
 });
 

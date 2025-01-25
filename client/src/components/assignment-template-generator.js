@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { SparkleIcon } from 'lucide-react'
 import { StarsIcon } from 'lucide-react'
+import io from 'socket.io-client';
+const socket = io('http://localhost:9000'); 
 
 
 export default function AssignmentTemplateGenerator() {
@@ -59,7 +61,9 @@ Do not add any trailing nextlines in output it should be perfect array of object
 
 
   const submitAssignment = async ()=>{
-    debugger;
+
+      socket.emit('assignment', 'A new assignment has been created');
+
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/assignments`,
       {section: sectionId, gradeLevel: classId, subject:subjectId,dueDate,questionsSet:questions,createdBy:userDetails._id }

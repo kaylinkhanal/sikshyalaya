@@ -2,6 +2,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { Home, Inbox, Settings } from "lucide-react"
 import CartItems from "@/components/cart-items"
+import AssignmentProvider from "./assignmentProvider"
 const studentItems = [
   {
     title: "Dashboard",
@@ -26,6 +27,7 @@ const studentItems = [
 ]
 export default function Layout({ children }) {
   return (
+    <AssignmentProvider>
     <SidebarProvider>
       <AppSidebar items={studentItems} />
       <main>
@@ -34,5 +36,7 @@ export default function Layout({ children }) {
         <CartItems/>
       </main>
     </SidebarProvider>
+    </AssignmentProvider>
+
   )
 }
