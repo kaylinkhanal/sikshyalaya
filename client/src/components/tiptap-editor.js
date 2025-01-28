@@ -10,8 +10,10 @@ import EditorToolbar from './editor-toolbar'
 import { Button } from './ui/button'
 import axios from 'axios'
 import { useSelector } from 'react-redux'
+import { useToast } from '@/hooks/use-toast'
 
 const TiptapEditor = ({setAnswers, answers, question, id,isLastQuestion}) => {
+  const {toast} = useToast()
   const {userDetails} = useSelector(state=>state.user)
   const editor = useEditor({
     extensions: [
@@ -59,7 +61,7 @@ const TiptapEditor = ({setAnswers, answers, question, id,isLastQuestion}) => {
     } )
     if(data){
       toast({
-        title: data
+        title: "assignment submitted"
       })
     }
   

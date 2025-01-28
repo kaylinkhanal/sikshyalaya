@@ -37,7 +37,7 @@ const getSubjectsOfParticularTeacher = async (req, res) => {
 const getSubjectsOfParticularStudent = async (req, res) => {
   const section = await Section.findOne({students:req.params.studentId })
   
-  const subjects = await Subject.find({section: section._id})
+  const subjects = await Subject.find({section: section._id}).populate('teacher')
 res.json(subjects)
 };
 

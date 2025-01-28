@@ -33,6 +33,11 @@ const Assignments = () => {
   useEffect(() => {
     fetchSubjectList()
   }, [userDetails?._id])
+//console.log(subjectList);
+
+console.log(userDetails)
+  
+  
 
   if (loading) {
     return (
@@ -62,6 +67,7 @@ const Assignments = () => {
 
   return (
     <>
+    
       <p className='text-teal font-mono text-4xl'>ASSIGNMENT SUBJECTS:</p>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 m-4">
