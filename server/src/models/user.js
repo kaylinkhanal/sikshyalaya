@@ -13,7 +13,10 @@ const userSchema = new Schema({
   isVerified: Boolean,
   fullName:String,
   fatherName: String,
-  motherName: String
+  motherName: String,
+  pendingNotifications: Boolean
+},{
+  timestamps:true
 });
 const User = mongoose.model('User', userSchema);
 module.exports = User

@@ -62,7 +62,7 @@ Do not add any trailing nextlines in output it should be perfect array of object
 
   const submitAssignment = async ()=>{
 
-      socket.emit('assignment', 'A new assignment has been created');
+      socket.emit('assignment', userDetails.fullName + 'has created a new assignment.',sectionId);
 
     const { data } = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/assignments`,

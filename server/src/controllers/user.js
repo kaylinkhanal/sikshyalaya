@@ -3,6 +3,8 @@ const saltRounds = 10;
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const nodemailer = require("nodemailer");
+const Section = require("../models/section");
+const Assignment = require("../models/assignment");
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -87,4 +89,15 @@ const rejectUser = async (req, res) => {
   res.send('user rejected')
 }
 
-module.exports = { getAllUser, approveUser, loginUser, registerUser, rejectUser }
+
+const  getNotifications= async(req,res)=>{
+  const section  = await Section.findOne({students: req.params.userId})
+  assignment = await Assignment.find({section: section._id}).populate('createdBy').populate('subject')
+  const notificationText = assignment.map((item)=>{
+    return `${item.createdBy.fullName} has created assignemnt for ${item.subject.subjectName}. Due on ${item.dueDate}`
+  })
+  res.json({notification: notificationText, dateTime: Date.now()})
+}
+
+
+module.exports = { getAllUser, approveUser, loginUser, registerUser, rejectUser ,getNotifications}
