@@ -7,7 +7,7 @@ const initialState = {
   isLoggednIn: false,
 }
 export const userSlice = createSlice({
-  name: 'card',
+  name: 'user',
   initialState,
   reducers: {
     loginUser: (state, action) => {
