@@ -1,5 +1,20 @@
 "use client";
 
+import React, { useEffect, useState } from 'react'
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
+import { PlusCircle } from 'lucide-react'
+import { DatePicker } from "./date-picker"
+import { AssignmentTemplate } from "./assignment-template"
+import axios from 'axios'
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from './ui/select'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { SparkleIcon } from 'lucide-react'
+import { StarsIcon } from 'lucide-react'
+import io from 'socket.io-client';
+const socket = io('http://localhost:9000'); 
+
 import React, { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -72,6 +87,10 @@ Do not add any trailing nextlines in output it should be perfect array of object
       setQuestions(assignments);
     }
   };
+
+  const submitAssignment = async ()=>{
+
+      socket.emit('assignment', userDetails.fullName + 'has created a new assignment.',sectionId);
 
   const submitAssignment = async () => {
     const { data } = await axios.post(

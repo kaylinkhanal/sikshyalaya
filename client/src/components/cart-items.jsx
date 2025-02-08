@@ -11,7 +11,7 @@ const CartItems = () => {
     const {cartItems} = useSelector(state=>state.product)
   
   return (
-    <div onClick={()=>router.push('/student/shop/shopping-cart')} className='absolute right-5 top-5'>
+    <div onClick={()=>router.push('/student/shop/shopping-cart')} className='absolute right-16 top-5'>
       <ShoppingCartIcon  size={50}>
         </ShoppingCartIcon>
       <Badge className='absolute top-1 left-0 w-2 h-4 bg-red-500'>

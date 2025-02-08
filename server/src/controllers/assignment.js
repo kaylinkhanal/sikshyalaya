@@ -33,6 +33,9 @@ const addNewAssignment = async (req, res) => {
   }
 
 
+
+
+
   const  submitAssignments= async(req,res)=>{
     const data = await Submission.create(req.body)
     res.json("Assignments Submitted!!")

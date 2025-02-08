@@ -1,7 +1,20 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const http = require('http');
+const { Server } = require("socket.io");
+
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", 
+    methods: ["GET", "POST"]
+  }
+});
+
+
+
 const { PORT } = process.env;
 const UserRoute = require("./routes/user");
 const ClassRoute = require("./routes/class");
@@ -14,6 +27,8 @@ const AssignmentRoute = require("./routes/assignment");
 
 
 const dbConnect = require("./db/connection");
+const Section = require("./models/section");
+const User = require("./models/user");
 dbConnect();
 
 
@@ -29,9 +44,44 @@ app.use(SubmissionRoute);
 
 
 
+io.on('connection', (socket) => {
+  socket.on('joinRoom', (userId)=>{
+    console.log("User connected in the room is :", userId)
+    socket.join(userId.toString())
+  })
+
+
+  socket.on('assignment',async (assignment, sectionId) => {
+    try{
+      const section = await Section.findById(sectionId)
+      section.students.forEach((item)=>{ //send assingment alert for each students  of that section
+        if(io.sockets.adapter.rooms.has(item.toString())){  //check if each students are online
+          io.to(item.toString()).emit('assignment', assignment) //main part
+        }else{
+          console.log('User in the rooms does not belong to the section in which assingment is created')
+        }
+      })
+   
+
+    }catch(err){
+      console.log(error)
+    }
+  });
+  
+});
+
+
+const test = async()=>{
+const user = await User.findById('6775e9d7ae1a0213bab9631f')
+user.pendingNotifications = false
+user.save()
+}
+
+
+test()
 // http://localhost:8000/subject/{sectionId}/subject
 
-app.listen(PORT ?? 8080, () => {
+server.listen(PORT ?? 8080, () => {
   console.log(`Example app listening on port ${PORT ?? 8080}`);
 });
 
