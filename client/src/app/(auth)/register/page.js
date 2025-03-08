@@ -15,7 +15,7 @@ import {
 import { Label } from "@/components/ui/label";
 
 
-import Image from "next/image";
+
 import axios from "axios";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';

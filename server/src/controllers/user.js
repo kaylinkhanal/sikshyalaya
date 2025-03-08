@@ -92,7 +92,7 @@ const rejectUser = async (req, res) => {
 
 const  getNotifications= async(req,res)=>{
   const section  = await Section.findOne({students: req.params.userId})
-  assignment = await Assignment.find({section: section._id}).populate('createdBy').populate('subject')
+  const assignment = await Assignment.find({section: section._id}).populate('createdBy').populate('subject')
   const notificationText = assignment.map((item)=>{
     return `${item.createdBy.fullName} has created assignemnt for ${item.subject.subjectName}. Due on ${item.dueDate}`
   })

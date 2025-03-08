@@ -13,7 +13,10 @@ const ShoppingCart = () => {
     if(cartItems.length == 0) return "No Cart Items ..."
     const total = cartItems.reduce((total, item)=>{
         return{totalAmount: total.totalAmount+ (item.quantity*item.productPrice), quantity: total.quantity+item.quantity}
-       },{totalAmount:0, quantity:0})
+       },{totalAmount:0, quantity:0})  //here total is constantly updated with the new value of totalAmount and quantity
+
+       //const sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+
 
   return (
     <div className='flex flex-col'>

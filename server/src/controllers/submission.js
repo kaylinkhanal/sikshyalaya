@@ -25,6 +25,56 @@ const addNewSubmission = async (req, res) => {
  })
 
     return res.json(submissionList)
+
+
+//     const Submission = require('./models/Submission');
+// const teacherId = 'yourTeacherId';
+
+// Submission.aggregate([
+//   {
+//     $lookup: {
+//       from: 'assignments', // Collection name for assignments
+//       localField: 'assignment',
+//       foreignField: '_id',
+//       as: 'assignment'
+//     }
+//   },
+//   { $unwind: '$assignment' }, // Deconstruct the assignment array
+//   {
+//     $lookup: {
+//       from: 'users', // Collection name for users
+//       localField: 'assignment.createdBy',
+//       foreignField: '_id',
+//       as: 'teacher'
+//     }
+//   },
+//   { $unwind: '$teacher' }, // Deconstruct the teacher array
+//   { $match: { 'teacher._id': mongoose.Types.ObjectId(teacherId) } }, // Filter by teacherId
+//   {
+//     $project: { // Optional: Select the fields you need
+//         _id: 1,
+//         student: 1,
+//         answers: 1,
+//         score: 1,
+//         remarks: 1,
+//         assignment: {
+//             _id: 1,
+//             // ... other assignment fields you want
+//         },
+//         teacher: {
+//             _id: 1,
+//             name: 1,
+//             // ... other teacher fields you want
+//         }
+//     }
+//   }
+// ])
+//   .then(submissions => {
+//     console.log(submissions);
+//   })
+//   .catch(err => {
+//     console.error(err);
+//   });
   }
 
 

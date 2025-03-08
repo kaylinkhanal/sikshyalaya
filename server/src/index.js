@@ -72,7 +72,7 @@ io.on('connection', (socket) => {
 
 
 const test = async()=>{
-const user = await User.findById('6775e9d7ae1a0213bab9631f')
+const user = await User.findById('67985fcf1b6dbbaf8c8d01e9')
 user.pendingNotifications = false
 user.save()
 }
